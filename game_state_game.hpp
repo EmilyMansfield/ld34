@@ -15,17 +15,23 @@ class GameStateGame : public GameState
 {
 private:
 
+	enum class SubState {PLAY, PAUSE, TRANSITIONING, TRANSITIONED};
+
 	Player mPlayer;
 	float mNextGen;
 	float mT;
 	std::vector<Projectile> mProjectiles;
+	SubState mSubstate;
+	SubState mPrevstate; // Used for resuming
 
 	Text mTextScore;
 	Text mTextPause;
 
 	float mDuration;
 
-	bool mPaused;
+	float mTransitionTimer;
+	float mTransitionLength;
+	int mCurrentLevel;
 
 	// Projectile angle to player side is
 	// north = (0,90)    = 0 => south = 2
@@ -38,17 +44,25 @@ private:
 		return map[static_cast<int>(dir / 90.0f)];
 	}
 
-	float getGenerationInterval() const
+	float getLevel() const
 	{
-		// Simple difficulty progression
-		if(mDuration < 10)
-			return 2.0;
-		else if(mDuration < 30)
-			return 1.2;
-		else if(mDuration < 60)
-			return 0.8;
+		if(mDuration < ld::levelTimers[0])
+			return 0;
+		else if(mDuration < ld::levelTimers[1])
+			return 1;
+		else if(mDuration < ld::levelTimers[2])
+			return 2;
 		else
-			return 0.5;
+			return 3;
+	}
+
+	float getGenerationInterval(int level) const
+	{
+		if(mSubstate == SubState::TRANSITIONING) return 0.25f;
+		static const float difficultyMap[] = {
+			2.0, 1.2, 0.9, 0.6
+		};
+		return difficultyMap[level];
 	}
 
 public:
@@ -59,10 +73,13 @@ public:
 		mPlayer(1.0f),
 		mNextGen(2.0f),
 		mT(0.0f),
+		mSubstate(SubState::PLAY),
 		mTextScore("0"),
 		mTextPause("PAUSED"),
 		mDuration(0.0f),
-		mPaused(false)
+		mTransitionTimer(0.0),
+		mTransitionLength(2.0f),
+		mCurrentLevel(0)
 	{
 		mPlayer.setPosition(ld::gameDim/2.0f, ld::gameDim/2.0f);
 		mTextScore.setPosition(ld::gameDim*5.0f/6.0f, ld::gameDim/15.0f);
@@ -83,7 +100,7 @@ public:
 		for(auto& projectile : mProjectiles) target.draw(projectile, states);
 		target.draw(mTextScore, states);
 
-		if(mPaused)
+		if(mSubstate == SubState::PAUSE)
 		{
 			target.draw(mTextPause, states);
 		}

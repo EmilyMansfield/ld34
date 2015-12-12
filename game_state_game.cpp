@@ -12,8 +12,12 @@ void GameStateGame::handleEvent(const sf::Event& event)
 {
 	if(event.type == sf::Event::KeyPressed)
 	{
-		if(mPaused)
+		if(mSubstate == SubState::PAUSE)
 		{
+			if(event.key.code == sf::Keyboard::P)
+			{
+				mSubstate = mPrevstate;
+			}
 		}
 		else
 		{
@@ -37,10 +41,11 @@ void GameStateGame::handleEvent(const sf::Event& event)
 			{
 				std::cout << mProjectiles.size() << std::endl;
 			}			
-		}
-		if(event.key.code == sf::Keyboard::P)
-		{
-			mPaused = !mPaused;
+			else if(event.key.code == sf::Keyboard::P)
+			{
+				mPrevstate = mSubstate;
+				mSubstate = SubState::PAUSE;
+			}
 		}
 	}
 }
@@ -54,24 +59,63 @@ void GameStateGame::update(float dt)
 {
 	static int lastDir = 0;
 
-	if(mPaused)
+	if(mSubstate == SubState::PAUSE)
 	{	
 	}
 	else
 	{	
 		mDuration += dt;
 
+		// Handle level transitioning
+		if(mSubstate == SubState::TRANSITIONING)
+		{
+			// Continue level transition
+			if(getLevel() > mCurrentLevel)
+			{
+				mTransitionTimer += dt;
+				if(mTransitionTimer >= mTransitionLength)
+				{
+					mSubstate = SubState::TRANSITIONED;
+					mTransitionTimer = 0.0f;
+					mCurrentLevel = getLevel();
+				}
+			}
+		}
+		else if(mSubstate == SubState::TRANSITIONED)
+		{
+			mTransitionTimer += dt;
+			if(mTransitionTimer >= mTransitionLength / 2.0f)
+			{
+				// End transition and return to gameplay
+				mSubstate = SubState::PLAY;
+			}
+		}
+		else if(mSubstate == SubState::PLAY)
+		{
+			if(getLevel() > mCurrentLevel)
+			{
+				mSubstate = SubState::TRANSITIONING;
+				mTransitionTimer = 0;
+			}
+		}
+
 		// Generate new projectiles if necessary
 		mT += dt;
-		if(mT >= mNextGen)
+		if(mT >= mNextGen && mSubstate != SubState::TRANSITIONED)
 		{
 			mT = 0.0f;
-			mNextGen = getGenerationInterval();
+			mNextGen = getGenerationInterval(mCurrentLevel);
 			// Randomly generate an appearance direction and position
 			// Bias the direction towards 90 degree rotations from the
 			// previous direction
-			float dir = floor(ld::rand(0, 4)) * 90.0f;
-			if(lastDir == dir && rand() % 2 == 0) dir = fmod(dir + 90.0f, 360.0f);
+			// If level transitioning then keep the direction the same
+			float dir = 0.0f;
+			if(mSubstate == SubState::TRANSITIONING) dir = lastDir;
+			else if(mSubstate == SubState::PLAY)
+			{
+				dir = floor(ld::rand(0, 4)) * 90.0f;
+				if(lastDir == dir && rand() % 2 == 0) dir = fmod(dir + 90.0f, 360.0f);
+			}
 			lastDir = dir;
 			sf::Vector2f pos;
 			if(dir < 90.0f) // North so place at south

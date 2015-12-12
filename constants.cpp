@@ -18,3 +18,6 @@ const unsigned int ld::fontPixmap[] = {
 	0x3f1ad6b5, 0x3fbad6b5, 0x3f55294e, 0x3f5aeeb5, 0x3fbdd6b5, 0x3f1eeef1, 
 	0x3fffffff, 0x3fffffff, 0x3fffffff, 0x3fffffff, 0x0
 };
+const float ld::levelTimers[] = {
+	10.0, 30.0f, 60.0f, 120.0f
+};

@@ -16,6 +16,7 @@ extern const char* title;
 extern const sf::Keyboard::Key buttonLeft;
 extern const sf::Keyboard::Key buttonRight;
 extern const unsigned int fontPixmap[];
+extern const float levelTimers[];
 }
 
 #endif /* CONSTANTS_HPP */

@@ -18,8 +18,12 @@ int main()
 	sf::RenderWindow window(sf::VideoMode(ld::width, ld::height), 
 		ld::title, sf::Style::Titlebar | sf::Style::Close);
 
+	// Disable key repeating
+	window.setKeyRepeatEnabled(false);
+
 	// Window viewport
-	sf::View view(sf::FloatRect(0, 0, 6.0f, 6.0f));
+	sf::View view(sf::FloatRect(0, 0, 15.0f, 15.0f));
+	view.setCenter(15.0f/2.0f, 15.0f/2.0f);
 	window.setView(view);
 
 	// Pointer to current game state

@@ -6,3 +6,5 @@ const float ld::saturation = 0.85f;
 const float ld::value = 0.97f;
 const sf::Color ld::playerCol(0x33, 0x33, 0x33);
 const char* ld::title = "ld34";
+const sf::Keyboard::Key ld::buttonLeft = sf::Keyboard::Left;
+const sf::Keyboard::Key ld::buttonRight = sf::Keyboard::Right;

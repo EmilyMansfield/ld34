@@ -17,7 +17,7 @@ public:
 		GameState(state, prevState),
 		mPlayer(1.0f)
 	{
-		mPlayer.setPosition(3.0f, 3.0f);
+		mPlayer.setPosition(15.0f/2.0, 15.0f/2.0);
 	}
 
 	virtual void handleEvent(const sf::Event& event);

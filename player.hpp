@@ -29,6 +29,20 @@ private:
 	std::vector<std::pair<sf::Vector3f, sf::RectangleShape>> mSlots;
 	sf::RectangleShape mBody;
 
+	const float mRotateDuration;
+	float mRotateInterp;
+
+	float getAngle()
+	{
+		// Temporarily use a linear transition
+		// TODO: Make transition cubic/quadratic
+		return mDir * 90.0f + 90.0f * mRotateInterp * mRotating;
+	}
+
+	int mRotating;
+	// 0, 1, 2, 3 are N, E, S, W, respectively
+	int mDir;
+
 public:
 
 	// Add a new randomly coloured slot
@@ -73,7 +87,11 @@ public:
 	}
 
 	Player(float dim) :
-		mDim(dim), mBody(sf::Vector2f(dim, dim))
+		mDim(dim), mBody(sf::Vector2f(dim, dim)),
+		mRotateDuration(0.05),
+		mRotateInterp(0.0),
+		mRotating(false),
+		mDir(0)
 	{
 		// Create main body rectangle
 		mBody.setFillColor(ld::playerCol);
@@ -88,6 +106,29 @@ public:
 		states.transform *= getTransform();
 		target.draw(mBody, states);
 		for(auto& slot : mSlots) target.draw(slot.second, states);
+	}
+
+	void update(float dt)
+	{
+		if(mRotating) mRotateInterp += dt / mRotateDuration;
+		if(mRotateInterp > 1.0f)
+		{
+			mRotateInterp = 0.0f;
+			mDir = (mDir + mRotating) % 4;
+			mRotating = 0;
+		}
+		setRotation(getAngle());
+	}
+
+	// Rotate the player by 90 degrres with a smooth transition
+	// 1 = right, -1 = left
+	void rotate(int dir)
+	{
+		if(mRotating == 0)
+		{
+			mRotating = dir;
+			mRotateInterp = 0.0f;
+		}
 	}
 };
 

@@ -8,9 +8,7 @@
 #include <utility>
 
 #include "constants.hpp"
-
-sf::Color hsvToRgb(float h, float s, float v);
-sf::Color hsvToRgb(const sf::Vector3f& hsv);
+#include "util.hpp"
 
 // Player is a cube (higher polygon?) with coloured entries on
 // a select number of sides. Player can be rotated by 90 degrees
@@ -57,14 +55,14 @@ public:
 		{
 			// New slot is hue shifted from previous to
 			// prevent repetition by rand value in (30, 90)
-			float prevHue = (mSlots.size() > 0 ? mSlots.back().first.x : fmod(rand(), 360.0f));
+			float prevHue = (mSlots.size() > 0 ? mSlots.back().first.x : ld::rand(0, 360.0f));
 			sf::Vector3f col(
-				fmod(prevHue + fmod(rand(), 60.0f) + 30.0f, 360.0f),
+				fmod(prevHue + ld::rand(30.0f, 90.0f), 360.0f),
 				ld::saturation,
 				ld::value);
 			// Selecting same colour twice?
 			sf::RectangleShape slot(sf::Vector2f(mDim / 3.0f, mDim / 3.0f));
-			slot.setFillColor(hsvToRgb(col));
+			slot.setFillColor(ld::hsvToRgb(col));
 			slot.setOutlineThickness(0.0f);
 			// Set origin to centre of slot
 			slot.setOrigin(mDim / 6.0f, mDim / 6.0f);

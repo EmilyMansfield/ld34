@@ -52,6 +52,8 @@ void GameStateGame::handleInput(float dt)
 
 void GameStateGame::update(float dt)
 {
+	static int lastDir = 0;
+
 	if(mPaused)
 	{	
 	}
@@ -66,7 +68,11 @@ void GameStateGame::update(float dt)
 			mT = 0.0f;
 			mNextGen = getGenerationInterval();
 			// Randomly generate an appearance direction and position
+			// Bias the direction towards 90 degree rotations from the
+			// previous direction
 			float dir = floor(ld::rand(0, 4)) * 90.0f;
+			if(lastDir == dir && rand() % 2 == 0) dir = fmod(dir + 90.0f, 360.0f);
+			lastDir = dir;
 			sf::Vector2f pos;
 			if(dir < 90.0f) // North so place at south
 				pos = sf::Vector2f(ld::gameDim / 2.0f, ld::gameDim + 1.0f);

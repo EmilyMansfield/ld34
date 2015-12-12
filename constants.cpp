@@ -19,6 +19,6 @@ const unsigned int ld::fontPixmap[] = {
 	0x3fffffff, 0x3fffffff, 0x3fffffff, 0x3fffffff, 0x0
 };
 const float ld::levelTimers[] = {
-	10.0, 30.0f, 60.0f, 120.0f
+	10.0, 30.0f, 60.0f, 120.0f, 180.0f, 240.0f, 300.0f
 };
 const bool ld::hueCycling = false;

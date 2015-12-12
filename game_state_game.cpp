@@ -89,6 +89,10 @@ void GameStateGame::update(float dt)
 			{
 				// End transition and return to gameplay
 				mSubstate = SubState::PLAY;
+				if(mCurrentLevel % 2 == 0)
+				{
+					mPlayer.addSlot();
+				}
 			}
 		}
 		else if(mSubstate == SubState::PLAY)
@@ -111,7 +115,7 @@ void GameStateGame::update(float dt)
 			// previous direction
 			// If level transitioning then keep the direction the same
 			float dir = 0.0f;
-			if(mSubstate == SubState::TRANSITIONING) dir = lastDir;
+			if(mSubstate == SubState::TRANSITIONING && mCurrentLevel % 2 == 0) dir = lastDir;
 			else if(mSubstate == SubState::PLAY)
 			{
 				dir = floor(ld::rand(0, 4)) * 90.0f;

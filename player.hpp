@@ -132,9 +132,9 @@ public:
 	}
 
 	// Choose a random colour
-	sf::Color sample() const
+	sf::Vector3f sample() const
 	{
-		return ld::hsvToRgb(mSlots[static_cast<int>(ld::rand(0, mSlots.size()))].first);
+		return mSlots[static_cast<int>(ld::rand(0, mSlots.size()))].first;
 	}
 
 	// Get the colour associated with a specific side,
@@ -157,6 +157,20 @@ public:
 		sf::Transform trans;
 		trans.translate(getPosition()-mBody.getOrigin());
 		return trans.transformRect(mBody.getLocalBounds());
+	}
+
+	// Cycle hue of all colours by a small factor
+	// Does so instantly, so for a smooth transition pass
+	// a small df over and over
+	void cycleHue(float factor)
+	{
+		for(auto& slot : mSlots)
+		{
+			// sf::Vector3f newCol(slot.first);
+			// newCol.x = ;
+			slot.first .x = fmod(slot.first.x + factor, 360.0f);
+			slot.second.setFillColor(ld::hsvToRgb(slot.first));
+		}
 	}
 };
 

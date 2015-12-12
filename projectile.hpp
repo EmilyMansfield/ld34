@@ -4,6 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include <cmath>
 
+#include "util.hpp"
+
 class Projectile : public sf::Transformable, public sf::Drawable
 {
 private:
@@ -14,6 +16,8 @@ private:
 	float mDir;
 	// Speed of movement in game (arbitrary...) units
 	float mSpeed;
+	// hsv colour triple, used for hue shifting in level transitions
+	sf::Vector3f mHsv;
 	// Color of projectile. Should correspond to one of
 	// the player's colours
 	sf::Color mCol;
@@ -23,16 +27,17 @@ private:
 public:
 
 	Projectile(float dim, const sf::Vector2f& pos, float dir,
-		float speed, const sf::Color& col) :
+		float speed, const sf::Vector3f& hsv) :
 		mDim(dim),
 		mBody(sf::Vector2f(dim, dim)),
 		mDir(dir),
 		mSpeed(speed),
-		mCol(col),
+		mHsv(hsv),
+		mCol(ld::hsvToRgb(hsv)),
 		mDead(false)
 	{
 		setPosition(pos);
-		mBody.setFillColor(col);
+		mBody.setFillColor(mCol);
 		mBody.setOutlineThickness(0.0f);
 		mBody.setOrigin(mDim/2.0f, mDim/2.0f);
 	}
@@ -81,6 +86,14 @@ public:
 	float getDir() const
 	{
 		return mDir;
+	}
+
+	// Same as for Player
+	void cycleHue(float factor)
+	{
+		mHsv.x = fmod(mHsv.x + factor, 360.0f);
+		mCol = ld::hsvToRgb(mHsv);
+		mBody.setFillColor(ld::hsvToRgb(mHsv));
 	}
 };
 

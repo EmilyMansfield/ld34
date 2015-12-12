@@ -17,6 +17,7 @@ extern const sf::Keyboard::Key buttonLeft;
 extern const sf::Keyboard::Key buttonRight;
 extern const unsigned int fontPixmap[];
 extern const float levelTimers[];
+extern const bool hueCycling;
 }
 
 #endif /* CONSTANTS_HPP */

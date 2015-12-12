@@ -58,6 +58,7 @@ void GameStateGame::handleInput(float dt)
 void GameStateGame::update(float dt)
 {
 	static int lastDir = 0;
+	static sf::Vector3f lastCol;
 
 	if(mSubstate == SubState::PAUSE)
 	{	
@@ -126,20 +127,38 @@ void GameStateGame::update(float dt)
 				pos = sf::Vector2f(ld::gameDim / 2.0f, -1.0f);
 			else // East so place at west
 				pos = sf::Vector2f(-1.0f, ld::gameDim / 2.0f);
+			sf::Vector3f col = mPlayer.sample();
+			if(mSubstate == SubState::TRANSITIONING) col = lastCol;
+			lastCol = col;
 			// Create the projectile
-			mProjectiles.push_back(Projectile(1.0f/3.0f, pos, dir, 3.0f, mPlayer.sample()));
+			mProjectiles.push_back(Projectile(1.0f/3.0f, pos, dir, 3.0f, col));
 		}
 
+		// Cycle player hue if transitioning
+		if(mSubstate == SubState::TRANSITIONING && ld::hueCycling)
+		{
+			mPlayer.cycleHue(50.0f*dt);
+			lastCol.x = fmod(lastCol.x + 50.0f*dt, 360.0f);
+		}
+
+		// Handle behaviour of projectiles
 		sf::FloatRect playerBounds = mPlayer.bounds();
 		for(auto& projectile : mProjectiles)
 		{
 			sf::FloatRect prBounds = projectile.bounds();
+			// If transitioning, change the colour of all the projectiles
+			if(mSubstate == SubState::TRANSITIONING && ld::hueCycling)
+			{
+				projectile.cycleHue(50.0f*dt);
+			}
 			projectile.update(dt);
 			if(!projectile.isDead() && playerBounds.intersects(prBounds))
 			{
 				projectile.kill();
 
-				if(projectile.getCol() == mPlayer.colOnSide(dirToFacing(projectile.getDir())))
+				sf::Color c1 = projectile.getCol();
+				sf::Color c2 = mPlayer.colOnSide(dirToFacing(projectile.getDir()));
+				if(abs(c1.r-c2.r) < 5 && abs(c1.g-c2.g) < 5 && abs(c1.b-c2.b) < 5)
 				{
 					mPlayer.score += 100;
 				}

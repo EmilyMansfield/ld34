@@ -93,6 +93,7 @@ void GameStateGame::update(float dt)
 				if(mCurrentLevel % 2 == 1)
 				{
 					mPlayer.addSlot();
+					mPlayer.setAlpha(mPlayer.numSlots()-1, 0);
 				}
 			}
 		}

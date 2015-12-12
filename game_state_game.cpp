@@ -13,10 +13,11 @@ void GameStateGame::handleEvent(const sf::Event& event)
 	{
 		if(mSubstate == SubState::PAUSE)
 		{
-			if(event.key.code == sf::Keyboard::P)
-			{
-				mSubstate = mPrevstate;
-			}
+			// Only two buttons so no pause :(			
+			// if(event.key.code == sf::Keyboard::P)
+			// {
+			// 	mSubstate = mPrevSubstate;
+			// }
 		}
 		else
 		{
@@ -28,11 +29,11 @@ void GameStateGame::handleEvent(const sf::Event& event)
 			{
 				mPlayer.rotate(1);
 			}
-			else if(event.key.code == sf::Keyboard::P)
-			{
-				mPrevstate = mSubstate;
-				mSubstate = SubState::PAUSE;
-			}
+			// else if(event.key.code == sf::Keyboard::P)
+			// {
+			// 	mPrevSubstate = mSubstate;
+			// 	mSubstate = SubState::PAUSE;
+			// }
 		}
 	}
 }

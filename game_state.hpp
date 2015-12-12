@@ -12,8 +12,8 @@ class GameState : public sf::Drawable
 {
 protected:
 
-	std::shared_ptr<GameState> mState;
-	std::shared_ptr<GameState> mPrevState;
+	std::shared_ptr<GameState>& mState;
+	std::shared_ptr<GameState>& mPrevState;
 
 public:
 
@@ -21,8 +21,8 @@ public:
 	virtual void handleInput(float dt) = 0;
 	virtual void update(float dt) = 0;
 
-	GameState(std::shared_ptr<GameState> state,
-		std::shared_ptr<GameState> prevState) :
+	GameState(std::shared_ptr<GameState>& state,
+		std::shared_ptr<GameState>& prevState) :
 		mState(state),
 		mPrevState(prevState)
 	{

@@ -48,8 +48,8 @@ private:
 
 public:
 
-	GameStateTitle(std::shared_ptr<GameState> state,
-		std::shared_ptr<GameState> prevState) :
+	GameStateTitle(std::shared_ptr<GameState>& state,
+		std::shared_ptr<GameState>& prevState) :
 		GameState(state, prevState),
 		mTextTitle(ld::gameName),
 		mTextPlay("Play"),

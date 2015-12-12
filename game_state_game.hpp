@@ -22,7 +22,7 @@ private:
 	float mT;
 	std::vector<Projectile> mProjectiles;
 	SubState mSubstate;
-	SubState mPrevstate; // Used for resuming
+	// SubState mPrevSubstate; // Used for resuming
 
 	Text mTextScore;
 	Text mTextPause;
@@ -73,8 +73,8 @@ private:
 
 public:
 
-	GameStateGame(std::shared_ptr<GameState> state,
-		std::shared_ptr<GameState> prevState) :
+	GameStateGame(std::shared_ptr<GameState>& state,
+		std::shared_ptr<GameState>& prevState) :
 		GameState(state, prevState),
 		mPlayer(1.0f),
 		mNextGen(2.0f),

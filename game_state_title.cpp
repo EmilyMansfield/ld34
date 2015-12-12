@@ -4,6 +4,7 @@
 #include <string>
 
 #include "game_state_title.hpp"
+#include "game_state_game.hpp"
 #include "util.hpp"
 #include "constants.hpp"
 
@@ -18,8 +19,12 @@ void GameStateTitle::handleEvent(const sf::Event& event)
 		}
 		else if(event.key.code == ld::buttonRight)
 		{
-			mSelectedOption = (mSelectedOption + 3) % 2;
-			selectOption();
+			if(mSelectedOption == 0)
+			{
+				std::shared_ptr<GameState> thisState = mState;
+				mState.reset(new GameStateGame(mState, thisState));
+				// mState.reset(nullptr);
+			}
 		}
 	}
 }

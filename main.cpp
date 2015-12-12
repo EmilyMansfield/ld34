@@ -21,6 +21,9 @@ int main()
 	// Disable key repeating
 	window.setKeyRepeatEnabled(false);
 
+	// Clamp framerate
+	window.setVerticalSyncEnabled(true);
+
 	// Window viewport
 	sf::View view(sf::FloatRect(0, 0, ld::gameDim, ld::gameDim));
 	view.setCenter(ld::gameDim/2.0f, ld::gameDim/2.0f);

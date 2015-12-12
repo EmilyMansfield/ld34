@@ -1,10 +1,9 @@
-#include "game_state_game.hpp"
 #include <SFML/Graphics.hpp>
-#include <iostream>
 #include <cmath>
 #include <algorithm>
 #include <string>
 
+#include "game_state_game.hpp"
 #include "util.hpp"
 #include "constants.hpp"
 
@@ -29,18 +28,6 @@ void GameStateGame::handleEvent(const sf::Event& event)
 			{
 				mPlayer.rotate(1);
 			}
-			else if(event.key.code == sf::Keyboard::Space)
-			{
-				mPlayer.addSlot();
-			}
-			else if(event.key.code == sf::Keyboard::S)
-			{
-				std::cout << mPlayer.score << std::endl;
-			}
-			else if(event.key.code == sf::Keyboard::D)
-			{
-				std::cout << mProjectiles.size() << std::endl;
-			}			
 			else if(event.key.code == sf::Keyboard::P)
 			{
 				mPrevstate = mSubstate;

@@ -5,7 +5,7 @@
 
 namespace ld
 {
-// Return a random float between a and b
+// Return a random float on [a, b) (hopefully)
 float rand(float a, float b);
 // Convert a hsv colour to an SFML-compatible rgb version
 sf::Color hsvToRgb(float h, float s, float v);

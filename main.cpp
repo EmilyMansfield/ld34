@@ -22,8 +22,8 @@ int main()
 	window.setKeyRepeatEnabled(false);
 
 	// Window viewport
-	sf::View view(sf::FloatRect(0, 0, 15.0f, 15.0f));
-	view.setCenter(15.0f/2.0f, 15.0f/2.0f);
+	sf::View view(sf::FloatRect(0, 0, ld::gameDim, ld::gameDim));
+	view.setCenter(ld::gameDim/2.0f, ld::gameDim/2.0f);
 	window.setView(view);
 
 	// Pointer to current game state

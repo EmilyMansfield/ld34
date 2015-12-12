@@ -127,6 +127,12 @@ public:
 			mRotateInterp = 0.0f;
 		}
 	}
+
+	// Choose a random colour
+	sf::Color sample()
+	{
+		return ld::hsvToRgb(mSlots[static_cast<int>(ld::rand(0, mSlots.size()))].first);
+	}
 };
 
 #endif /* PLAYER_HPP */

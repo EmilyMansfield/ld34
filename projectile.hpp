@@ -70,6 +70,18 @@ public:
 	{
 		return mDead;
 	}
+
+	// Get the colour of the projectile
+	sf::Color getCol() const
+	{
+		return mCol;
+	}
+
+	// Get direction of the projectile
+	float getDir() const
+	{
+		return mDir;
+	}
 };
 
 #endif /* PROJECTILE_HPP */

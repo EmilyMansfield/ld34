@@ -18,6 +18,17 @@ private:
 	float mT;
 	std::vector<Projectile> mProjectiles;
 
+	// Projectile angle to player side is
+	// north = (0,90)    = 0 => south = 2
+	// west =  (90,180)  = 1 => east  = 1
+	// south = (180,270) = 2 => north = 0
+	// east =  (270,360) = 3 => west  = 3
+	float dirToFacing(float dir)
+	{
+		const static int map[4] = { 2, 1, 0, 3 };
+		return map[static_cast<int>(dir / 90.0f)];
+	}
+
 public:
 
 	GameStateGame(std::shared_ptr<GameState> state,

@@ -42,6 +42,8 @@ private:
 
 public:
 
+	unsigned long score;
+
 	// Add a new randomly coloured slot
 	// Slots are 1/3 size of the total rectangle,
 	// so
@@ -88,7 +90,8 @@ public:
 		mRotateDuration(0.05),
 		mRotateInterp(0.0),
 		mRotating(false),
-		mDir(0)
+		mDir(0),
+		score(0)
 	{
 		// Create main body rectangle
 		mBody.setFillColor(ld::playerCol);
@@ -132,6 +135,20 @@ public:
 	sf::Color sample() const
 	{
 		return ld::hsvToRgb(mSlots[static_cast<int>(ld::rand(0, mSlots.size()))].first);
+	}
+
+	// Get the colour associated with a specific side,
+	// after the current rotation. Rotation ccw by one step
+	// is equivalent to a left shift by 1, and cw a right shift.
+	// Dir should be in the usual Player format, i.e. 0,1,2,3
+	sf::Color colOnSide(float dir) const
+	{
+		// First slot is north, others proceed N,E,S,W
+		size_t slot = static_cast<int>(dir - mDir) % 4;
+		if(slot >= mSlots.size())
+			return sf::Color(0,0,0);
+		else
+			return ld::hsvToRgb(mSlots[slot].first);
 	}
 
 	// Get bounding rectangle, ignoring rotations

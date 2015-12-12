@@ -18,6 +18,18 @@ void GameStateGame::handleEvent(const sf::Event& event)
 		{
 			mPlayer.rotate(1);
 		}
+		else if(event.key.code == sf::Keyboard::Space)
+		{
+			mPlayer.addSlot();
+		}
+		else if(event.key.code == sf::Keyboard::S)
+		{
+			std::cout << mPlayer.score << std::endl;
+		}
+		else if(event.key.code == sf::Keyboard::D)
+		{
+			std::cout << mProjectiles.size() << std::endl;
+		}
 	}
 }
 
@@ -50,18 +62,27 @@ void GameStateGame::update(float dt)
 	}
 
 	sf::FloatRect playerBounds = mPlayer.bounds();
-	// std::cout << "Player is " << playerBounds.left << " " << playerBounds.width << " "
-		// << playerBounds.top << " " << playerBounds.height << std::endl;
 	for(auto& projectile : mProjectiles)
 	{
+		sf::FloatRect prBounds = projectile.bounds();
 		projectile.update(dt);
-		if(playerBounds.intersects(projectile.bounds()))
+		if(!projectile.isDead() && playerBounds.intersects(prBounds))
 		{
 			projectile.kill();
+
+			if(projectile.getCol() == mPlayer.colOnSide(dirToFacing(projectile.getDir())))
+			{
+				mPlayer.score += 100;
+			}
+			else
+			{
+			}
 		}
 	}
 	// Remove dead projectiles
-	std::remove_if(mProjectiles.begin(), mProjectiles.end(), [](Projectile& p) { return p.isDead(); });
+	mProjectiles.erase(
+		std::remove_if(mProjectiles.begin(), mProjectiles.end(), [](Projectile& p) { return p.isDead(); }),
+		mProjectiles.end());
 
 	mPlayer.update(dt);
 }

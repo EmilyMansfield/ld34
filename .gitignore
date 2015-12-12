@@ -1,0 +1,7 @@
+screencast/
+old-release-win/
+*.dll/
+ld34
+ld34.exe
+dll/
+test/

@@ -42,12 +42,14 @@ void GameStateGame::handleInput(float dt)
 
 void GameStateGame::update(float dt)
 {
+	mDuration += dt;
+
 	// Generate new projectiles if necessary
 	mT += dt;
 	if(mT >= mNextGen)
 	{
 		mT = 0.0f;
-		mNextGen = ld::rand(mGenerationInterval/2.0f, mGenerationInterval*3.0f/2.0f);
+		mNextGen = getGenerationInterval();
 		// Randomly generate an appearance direction and position
 		float dir = floor(ld::rand(0, 4)) * 90.0f;
 		sf::Vector2f pos;

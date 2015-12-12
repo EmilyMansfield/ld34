@@ -5,7 +5,7 @@ sf::Color hsvToRgb(float h, float s, float v)
 	// Thanks Wikipedia
 	float c = v * s;
 	float h2 = h / 60.0f;
-	float x = c*(1-fabs(remainder(h2, 2.0f)-1));
+	float x = c*(1-fabs(fmod(h2, 2.0f)-1));
 	sf::Color offset(
 		255.0f * (v-c),
 		255.0f * (v-c),

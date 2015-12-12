@@ -2,7 +2,7 @@
 
 const unsigned int ld::width = 600;
 const unsigned int ld::height = 600;
-float ld::gameDim = 15.0f;
+float ld::gameDim = 12.0f;
 const float ld::saturation = 0.85f;
 const float ld::value = 0.97f;
 const sf::Color ld::playerCol(0x33, 0x33, 0x33);

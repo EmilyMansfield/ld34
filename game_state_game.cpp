@@ -74,6 +74,11 @@ void GameStateGame::update(float dt)
 			if(getLevel() > mCurrentLevel)
 			{
 				mTransitionTimer += dt;
+				// Odd level so fade in new slot
+				if(mCurrentLevel % 2 == 1)
+				{
+					mPlayer.setAlpha(mPlayer.numSlots()-1, mTransitionTimer / mTransitionLength);
+				}
 				if(mTransitionTimer >= mTransitionLength)
 				{
 					mSubstate = SubState::TRANSITIONED;
@@ -97,6 +102,11 @@ void GameStateGame::update(float dt)
 			{
 				mSubstate = SubState::TRANSITIONING;
 				mTransitionTimer = 0;
+				// Odd level so add new slot
+				if(mCurrentLevel % 2 == 1)
+				{
+					mPlayer.addSlot();
+				}
 			}
 		}
 
@@ -111,7 +121,7 @@ void GameStateGame::update(float dt)
 			// previous direction
 			// If level transitioning then keep the direction the same
 			float dir = 0.0f;
-			if(mSubstate == SubState::TRANSITIONING) dir = lastDir;
+			if(mSubstate == SubState::TRANSITIONING && mCurrentLevel % 2 == 0) dir = lastDir;
 			else if(mSubstate == SubState::PLAY)
 			{
 				dir = floor(ld::rand(0, 4)) * 90.0f;

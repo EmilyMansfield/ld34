@@ -168,9 +168,26 @@ public:
 		{
 			// sf::Vector3f newCol(slot.first);
 			// newCol.x = ;
-			slot.first .x = fmod(slot.first.x + factor, 360.0f);
+			slot.first.x = fmod(slot.first.x + factor, 360.0f);
 			slot.second.setFillColor(ld::hsvToRgb(slot.first));
 		}
+	}
+
+	// Change the alpha value of a slot
+	// Alpha is in [0,1)
+	void setAlpha(size_t slot, float a)
+	{
+		if(slot >= mSlots.size()) return;
+		sf::Color c = mSlots[slot].second.getFillColor();
+		if(a > 1.0) a = 1.0f;
+		if(a < 0.0) a = 0.0f;
+		c.a = 255 * a;
+		mSlots[slot].second.setFillColor(c);
+	}
+
+	size_t numSlots() const
+	{
+		return mSlots.size();
 	}
 };
 

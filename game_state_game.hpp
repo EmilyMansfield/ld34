@@ -52,17 +52,23 @@ private:
 			return 1;
 		else if(mDuration < ld::levelTimers[2])
 			return 2;
-		else
+		else if(mDuration < ld::levelTimers[3])
 			return 3;
+		else if(mDuration < ld::levelTimers[4])
+			return 4;
+		else if(mDuration < ld::levelTimers[5])
+			return 5;
+		else
+			return 6;
 	}
 
 	float getGenerationInterval(int level) const
 	{
-		if(mSubstate == SubState::TRANSITIONING) return 0.25f;
+		if(mSubstate == SubState::TRANSITIONING && mCurrentLevel % 2 == 0) return 0.25f;
 		static const float difficultyMap[] = {
-			2.0, 1.2, 0.9, 0.6
+			1.6, 1.2, 0.8, 0.5
 		};
-		return difficultyMap[level];
+		return difficultyMap[(level+1)/2];
 	}
 
 public:

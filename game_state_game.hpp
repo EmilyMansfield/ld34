@@ -2,11 +2,13 @@
 #define GAME_STATE_GAME_HPP
 
 #include <SFML/System.hpp>
+#include <SFML/Graphics.hpp>
 
 #include "game_state.hpp"
 #include "player.hpp"
 #include "projectile.hpp"
 #include "constants.hpp"
+#include "text.hpp"
 
 class GameStateGame : public GameState
 {
@@ -17,6 +19,8 @@ private:
 	float mNextGen;
 	float mT;
 	std::vector<Projectile> mProjectiles;
+
+	Text mTextScore;
 
 	// Projectile angle to player side is
 	// north = (0,90)    = 0 => south = 2
@@ -37,9 +41,12 @@ public:
 		mPlayer(1.0f),
 		mGenerationInterval(2.0f),
 		mNextGen(2.0f),
-		mT(0.0f)
+		mT(0.0f),
+		mTextScore("0")
 	{
-		mPlayer.setPosition(ld::gameDim/2.0, ld::gameDim/2.0);
+		mPlayer.setPosition(ld::gameDim/2.0f, ld::gameDim/2.0f);
+		mTextScore.setPosition(ld::gameDim*4.0f/6.0f, ld::gameDim/6.0f);
+		mTextScore.setScale(0.1f, 0.1f);
 	}
 
 	virtual void handleEvent(const sf::Event& event);
@@ -51,6 +58,7 @@ public:
 		target.draw(mPlayer, states);
 		// Helps if I draw the damn things...
 		for(auto& projectile : mProjectiles) target.draw(projectile, states);
+		target.draw(mTextScore, states);
 	}
 };
 

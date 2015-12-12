@@ -6,12 +6,15 @@
 
 #include <memory>
 
+#include "constants.hpp"
+
 class GameState : public sf::Drawable
 {
 protected:
 
 	std::shared_ptr<GameState> mState;
 	std::shared_ptr<GameState> mPrevState;
+	std::shared_ptr<sf::Font> mFont;
 
 public:
 
@@ -22,7 +25,11 @@ public:
 	GameState(std::shared_ptr<GameState> state,
 		std::shared_ptr<GameState> prevState) :
 		mState(state),
-		mPrevState(prevState) {}
+		mPrevState(prevState)
+	{
+		mFont.reset(new sf::Font());
+		mFont->loadFromFile(ld::fontName);
+	}
 
 	virtual ~GameState() {}
 };

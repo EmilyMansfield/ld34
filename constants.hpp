@@ -15,6 +15,8 @@ extern const sf::Color playerCol;
 extern const char* title;
 extern const sf::Keyboard::Key buttonLeft;
 extern const sf::Keyboard::Key buttonRight;
+extern const char* fontName;
+extern const unsigned int fontPixmap[];
 }
 
 #endif /* CONSTANTS_HPP */

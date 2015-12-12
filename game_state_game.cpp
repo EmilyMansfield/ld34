@@ -3,6 +3,7 @@
 #include <iostream>
 #include <cmath>
 #include <algorithm>
+#include <string>
 
 #include "util.hpp"
 
@@ -85,5 +86,8 @@ void GameStateGame::update(float dt)
 		mProjectiles.end());
 
 	mPlayer.update(dt);
+
+	// Set the score text
+	mTextScore.setString("score " + std::to_string(mPlayer.score));
 }
 

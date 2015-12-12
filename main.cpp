@@ -16,10 +16,15 @@ int main()
 	std::shared_ptr<GameState> state;
 
 	// Load initial game state
-	state.reset(new GameStateGame());
+	state.reset(new GameStateGame(state, state));
+
+	// Frame time
+	sf::Clock clock;
 
 	while(window.isOpen())
 	{
+		float dt = clock.restart().asSeconds();
+
 		// Handle events
 		sf::Event event;
 		while(window.pollEvent(event))
@@ -28,15 +33,15 @@ int main()
 			{
 				window.close();
 			}
-			if(state != nullptr) state.handleEvent(event);
+			if(state != nullptr) state->handleEvent(event);
 		}
 		// Update window
-		if(state != nullptr) state.handleInput(dt);
-		if(state != nullptr) state.update(dt);
+		if(state != nullptr) state->handleInput(dt);
+		if(state != nullptr) state->update(dt);
 
 		// Draw window
 		window.clear(sf::Color::Black);
-		if(state != nullptr) window.draw(state);
+		if(state != nullptr) window.draw(*state);
 		window.display();
 	}
 

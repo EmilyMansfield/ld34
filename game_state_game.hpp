@@ -5,8 +5,23 @@
 
 class GameStateGame : public GameState
 {
+
 public:
-	GameStateGame() {}	
+
+	GameStateGame(std::shared_ptr<GameState> state,
+		std::shared_ptr<GameState> prevState) :
+		GameState(state, prevState)
+	{
+	}
+
+	virtual void handleEvent(const sf::Event& event);
+	virtual void handleInput(float dt);
+	virtual void update(float dt);
+
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
+	{
+
+	}
 };
 
 #endif /* GAME_STATE_GAME_HPP */

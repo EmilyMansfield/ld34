@@ -81,10 +81,6 @@ void GameStateGame::update(float dt)
 			{
 				// End transition and return to gameplay
 				mSubstate = SubState::PLAY;
-				if(mCurrentLevel % 2 == 0)
-				{
-					mPlayer.addSlot();
-				}
 			}
 		}
 		else if(mSubstate == SubState::PLAY)

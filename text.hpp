@@ -75,6 +75,11 @@ public:
 		mStr = str;
 		update();
 	}
+
+	void setColor(const sf::Color& col)
+	{
+		for(auto& r : mRects) r.setFillColor(col);
+	}
 };
 
 #endif /* TEXT_HPP */

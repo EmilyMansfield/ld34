@@ -7,6 +7,7 @@
 
 #include "game_state.hpp"
 #include "constants.hpp"
+#include "util.hpp"
 #include "text.hpp"
 
 class GameStateTitle : public GameState
@@ -17,6 +18,34 @@ private:
 	Text mTextPlay;
 	Text mTextSettings;
 
+	int mSelectedOption;
+
+	void select(Text* ptr)
+	{
+		ptr->setColor(ld::hsvToRgb(
+			ld::rand(0.0f, 360.0f),
+			ld::saturation,
+			ld::value));
+	}
+
+	void deselect(Text* ptr)
+	{
+		ptr->setColor(sf::Color(255, 255, 255));
+	}
+
+	void selectOption()
+	{
+		Text* selectedText = nullptr;
+		if(mSelectedOption == 0) selectedText = &mTextPlay;
+		else if(mSelectedOption == 1) selectedText = &mTextSettings;
+		if(selectedText != nullptr)
+		{
+			deselect(&mTextPlay);
+			deselect(&mTextSettings);
+			select(selectedText);
+		}
+	}
+
 public:
 
 	GameStateTitle(std::shared_ptr<GameState> state,
@@ -24,7 +53,8 @@ public:
 		GameState(state, prevState),
 		mTextTitle(ld::gameName),
 		mTextPlay("Play"),
-		mTextSettings("Settings")
+		mTextSettings("Settings"),
+		mSelectedOption(0)
 	{
 		mTextTitle.setPosition(ld::gameDim/2.0f, ld::gameDim/5.0f);
 		mTextTitle.setOrigin(ld::gameName.size() * 5 * 0.5f, 1 * 6 * 0.5f);
@@ -35,6 +65,11 @@ public:
 		mTextSettings.setPosition(ld::gameDim/2.0f, ld::gameDim*3/4.0f);
 		mTextSettings.setOrigin(8 * 5 * 0.5f, 1 * 6 * 0.5f);
 		mTextSettings.setScale(0.2f, 0.2f);
+
+		mTextPlay.setColor(ld::hsvToRgb(
+			ld::rand(0.0f, 360.0f),
+			ld::saturation,
+			ld::value));
 	}
 
 	virtual void handleEvent(const sf::Event& event);

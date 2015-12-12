@@ -2,6 +2,8 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <cmath>
+#include <algorithm>
+
 #include "util.hpp"
 
 void GameStateGame::handleEvent(const sf::Event& event)
@@ -46,7 +48,21 @@ void GameStateGame::update(float dt)
 		// Create the projectile
 		mProjectiles.push_back(Projectile(1.0f/3.0f, pos, dir, 3.0f, mPlayer.sample()));
 	}
+
+	sf::FloatRect playerBounds = mPlayer.bounds();
+	// std::cout << "Player is " << playerBounds.left << " " << playerBounds.width << " "
+		// << playerBounds.top << " " << playerBounds.height << std::endl;
+	for(auto& projectile : mProjectiles)
+	{
+		projectile.update(dt);
+		if(playerBounds.intersects(projectile.bounds()))
+		{
+			projectile.kill();
+		}
+	}
+	// Remove dead projectiles
+	std::remove_if(mProjectiles.begin(), mProjectiles.end(), [](Projectile& p) { return p.isDead(); });
+
 	mPlayer.update(dt);
-	for(auto& projectile : mProjectiles) projectile.update(dt);
 }
 

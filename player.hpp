@@ -129,9 +129,17 @@ public:
 	}
 
 	// Choose a random colour
-	sf::Color sample()
+	sf::Color sample() const
 	{
 		return ld::hsvToRgb(mSlots[static_cast<int>(ld::rand(0, mSlots.size()))].first);
+	}
+
+	// Get bounding rectangle, ignoring rotations
+	sf::FloatRect bounds() const
+	{
+		sf::Transform trans;
+		trans.translate(getPosition()-mBody.getOrigin());
+		return trans.transformRect(mBody.getLocalBounds());
 	}
 };
 

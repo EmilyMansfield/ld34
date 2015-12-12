@@ -17,6 +17,9 @@ private:
 	// Color of projectile. Should correspond to one of
 	// the player's colours
 	sf::Color mCol;
+	// Used for deleting intersected projectiles
+	bool mDead;
+
 public:
 
 	Projectile(float dim, const sf::Vector2f& pos, float dir,
@@ -25,7 +28,8 @@ public:
 		mBody(sf::Vector2f(dim, dim)),
 		mDir(dir),
 		mSpeed(speed),
-		mCol(col)
+		mCol(col),
+		mDead(false)
 	{
 		setPosition(pos);
 		mBody.setFillColor(col);
@@ -47,6 +51,24 @@ public:
 	{
 		states.transform *= getTransform();
 		target.draw(mBody, states);
+	}
+
+	// Return bounds of projectile
+	sf::FloatRect bounds() const
+	{
+		sf::Transform trans;
+		trans.translate(getPosition()-mBody.getOrigin());
+		return trans.transformRect(mBody.getLocalBounds());
+	}
+
+	// Mark as dead
+	void kill()
+	{
+		mDead = true;
+	}
+	bool isDead() const
+	{
+		return mDead;
 	}
 };
 

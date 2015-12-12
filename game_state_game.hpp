@@ -21,8 +21,11 @@ private:
 	std::vector<Projectile> mProjectiles;
 
 	Text mTextScore;
+	Text mTextPause;
 
 	float mDuration;
+
+	bool mPaused;
 
 	// Projectile angle to player side is
 	// north = (0,90)    = 0 => south = 2
@@ -57,11 +60,16 @@ public:
 		mNextGen(2.0f),
 		mT(0.0f),
 		mTextScore("0"),
-		mDuration(0.0f)
+		mTextPause("PAUSED"),
+		mDuration(0.0f),
+		mPaused(false)
 	{
 		mPlayer.setPosition(ld::gameDim/2.0f, ld::gameDim/2.0f);
 		mTextScore.setPosition(ld::gameDim*5.0f/6.0f, ld::gameDim/15.0f);
 		mTextScore.setScale(0.1f, 0.1f);
+		mTextPause.setPosition(ld::gameDim/2.0f, ld::gameDim/2.0f);
+		mTextPause.setOrigin(6 * 5 * 0.5f, 1 * 6 * 0.5f);
+		mTextPause.setScale(0.2f, 0.2f);
 	}
 
 	virtual void handleEvent(const sf::Event& event);
@@ -74,6 +82,11 @@ public:
 		// Helps if I draw the damn things...
 		for(auto& projectile : mProjectiles) target.draw(projectile, states);
 		target.draw(mTextScore, states);
+
+		if(mPaused)
+		{
+			target.draw(mTextPause, states);
+		}
 	}
 };
 

@@ -32,3 +32,8 @@ sf::Color ld::hsvToRgb(const sf::Vector3f& hsv)
 {
 	return hsvToRgb(hsv.x, hsv.y, hsv.z);
 }
+
+float ld::toRad(float deg)
+{
+	return deg / 360.0f * 2.0f * M_PI;
+}

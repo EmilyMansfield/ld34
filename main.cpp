@@ -7,6 +7,7 @@
 
 #include "game_state.hpp"
 #include "game_state_game.hpp"
+#include "game_state_title.hpp"
 #include "constants.hpp"
 
 int main()
@@ -33,7 +34,8 @@ int main()
 	std::shared_ptr<GameState> state;
 
 	// Load initial game state
-	state.reset(new GameStateGame(state, state));
+	// state.reset(new GameStateGame(state, state));
+	state.reset(new GameStateTitle(state, state));
 
 	// Frame time
 	sf::Clock clock;
@@ -57,7 +59,7 @@ int main()
 		if(state != nullptr) state->update(dt);
 
 		// Draw window
-		window.clear(sf::Color::Black);
+		window.clear(ld::backgroundCol);
 		if(state != nullptr) window.draw(*state);
 		window.display();
 	}

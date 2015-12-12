@@ -1,11 +1,12 @@
 #include "constants.hpp"
 
-const unsigned int ld::width = 800;
-const unsigned int ld::height = 800;
+const unsigned int ld::width = 600;
+const unsigned int ld::height = 600;
 float ld::gameDim = 15.0f;
 const float ld::saturation = 0.85f;
 const float ld::value = 0.97f;
 const sf::Color ld::playerCol(0x33, 0x33, 0x33);
+const sf::Color ld::backgroundCol(0x11, 0x11, 0x11);
 const char* ld::title = "ld34";
 const sf::Keyboard::Key ld::buttonLeft = sf::Keyboard::Left;
 const sf::Keyboard::Key ld::buttonRight = sf::Keyboard::Right;
@@ -22,3 +23,4 @@ const float ld::levelTimers[] = {
 	10.0, 30.0f, 60.0f, 120.0f, 180.0f, 240.0f, 300.0f
 };
 const bool ld::hueCycling = false;
+const std::string ld::gameName("Squares");

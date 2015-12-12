@@ -6,6 +6,7 @@
 #include <string>
 
 #include "util.hpp"
+#include "constants.hpp"
 
 void GameStateGame::handleEvent(const sf::Event& event)
 {
@@ -88,6 +89,9 @@ void GameStateGame::update(float dt)
 	mPlayer.update(dt);
 
 	// Set the score text
-	mTextScore.setString("score " + std::to_string(mPlayer.score));
+	std::string scoreStr = std::to_string(mPlayer.score);
+	mTextScore.setString(scoreStr);
+	mTextScore.setPosition(ld::gameDim - (scoreStr.size()+1) * 5 * 0.1f, ld::gameDim/15.0f);
+	mTextScore.setString(std::to_string(mPlayer.score));
 }
 

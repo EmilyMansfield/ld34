@@ -45,7 +45,7 @@ public:
 		mTextScore("0")
 	{
 		mPlayer.setPosition(ld::gameDim/2.0f, ld::gameDim/2.0f);
-		mTextScore.setPosition(ld::gameDim*4.0f/6.0f, ld::gameDim/6.0f);
+		mTextScore.setPosition(ld::gameDim*5.0f/6.0f, ld::gameDim/15.0f);
 		mTextScore.setScale(0.1f, 0.1f);
 	}
 

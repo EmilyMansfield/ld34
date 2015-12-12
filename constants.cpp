@@ -9,7 +9,6 @@ const sf::Color ld::playerCol(0x33, 0x33, 0x33);
 const char* ld::title = "ld34";
 const sf::Keyboard::Key ld::buttonLeft = sf::Keyboard::Left;
 const sf::Keyboard::Key ld::buttonRight = sf::Keyboard::Right;
-const char* ld::fontName = "assets/Mecha.ttf";
 const unsigned int ld::fontPixmap[] = {
 	0x3f1ad6b1, 0x3fbdef7b, 0x3f1ec6f1, 0x3f1bc6f1, 0x3f78d6b5, 0x3f1bc7b1, 
 	0x3f1ac7b1, 0x3f7bdef1, 0x3f1ac6b1, 0x3f78d6b1, 0x3f58d6b1, 0x3f1ac6b9, 

@@ -14,7 +14,6 @@ protected:
 
 	std::shared_ptr<GameState> mState;
 	std::shared_ptr<GameState> mPrevState;
-	std::shared_ptr<sf::Font> mFont;
 
 public:
 
@@ -27,8 +26,6 @@ public:
 		mState(state),
 		mPrevState(prevState)
 	{
-		mFont.reset(new sf::Font());
-		mFont->loadFromFile(ld::fontName);
 	}
 
 	virtual ~GameState() {}

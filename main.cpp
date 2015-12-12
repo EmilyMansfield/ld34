@@ -2,15 +2,25 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <memory>
+#include <cstdlib>
+#include <ctime>
+
 #include "game_state.hpp"
 #include "game_state_game.hpp"
 #include "constants.hpp"
 
 int main()
 {
+	// Will use 'proper' C++ random if have time
+	srand(time(nullptr));
+
 	// Non-resizeable window
 	sf::RenderWindow window(sf::VideoMode(ld::width, ld::height), 
 		ld::title, sf::Style::Titlebar | sf::Style::Close);
+
+	// Window viewport
+	sf::View view(sf::FloatRect(0, 0, 6.0f, 6.0f));
+	window.setView(view);
 
 	// Pointer to current game state
 	std::shared_ptr<GameState> state;

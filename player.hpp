@@ -6,6 +6,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <utility>
+#include <iostream>
 
 #include "constants.hpp"
 
@@ -45,9 +46,10 @@ public:
 			// prevent repetition by rand value in (30, 90)
 			float prevHue = (mSlots.size() > 0 ? mSlots.back().first.x : 0.0f);
 			sf::Vector3f col(
-				prevHue + remainder(rand() % RAND_MAX, 120.0f) - 30.0f,
+				prevHue + remainder(rand(), 60.0f) + 30.0f,
 				ld::saturation,
 				ld::value);
+
 			sf::RectangleShape slot(sf::Vector2f(mDim / 3.0f, mDim / 3.0f));
 			slot.setFillColor(hsvToRgb(col));
 			slot.setOutlineThickness(0.0f);

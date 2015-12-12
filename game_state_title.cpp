@@ -23,7 +23,6 @@ void GameStateTitle::handleEvent(const sf::Event& event)
 			{
 				std::shared_ptr<GameState> thisState = mState;
 				mState.reset(new GameStateGame(mState, thisState));
-				// mState.reset(nullptr);
 			}
 		}
 	}

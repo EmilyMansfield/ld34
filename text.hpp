@@ -67,6 +67,7 @@ private:
 
 public:
 
+	Text() {} // For a tuple when reading scores
 	Text(const std::string& str, const sf::Color& col = sf::Color::White) :
 		mStr(str),
 		mCol(col)

@@ -7,6 +7,11 @@
 #include <cmath>
 #include <vector>
 #include <string>
+#include <sstream>
+#include <iterator>
+#include <algorithm>
+#include <utility>
+#include <tuple>
 
 #include "game_state.hpp"
 #include "constants.hpp"
@@ -20,6 +25,8 @@ private:
 	Text mTextTitle;
 	Text mTextRestart;
 	Text mTextQuit;
+
+	std::vector<std::tuple<std::string, unsigned long, Text>> mScores;
 
 	int mSelectedOption;
 
@@ -83,6 +90,51 @@ private:
 		return response.getStatus() == sf::Http::Response::Ok;
 	}
 
+	bool getScores()
+	{
+		sf::Http::Request request("/retrieve");
+		sf::Http http(ld::leaderboardUrl);
+		sf::Http::Response response = http.sendRequest(request);
+
+		if(response.getStatus() == sf::Http::Response::Ok)
+		{
+			// std::string body = reponse.getBody();
+			std::istringstream iss(response.getBody());
+			// Very bad extraction incoming
+			std::vector<std::string> v{
+				std::istream_iterator<std::string>(iss),
+				std::istream_iterator<std::string>()};
+
+			for(int i = 0; i < v.size(); i += 2)
+			{
+				std::tuple<std::string, unsigned long, Text> score;
+				std::string& tName = std::get<0>(score);
+				unsigned long& tScore = std::get<1>(score);
+				Text& tText = std::get<2>(score);
+				tName = v[i];
+				tScore = std::stoi(v[i+1]);
+
+				tName.erase(
+					std::remove_if(
+						tName.begin(),
+						tName.end(),
+						[](char c) { return c < '0' || (c > '9' && c < 'A') || c > 'Z'; }),
+					tName.end());
+
+				tText.setString(tName);
+				tText.setColor(sf::Color::White);
+				tText.setOrigin(tName.size() * 5 * 0.5f, 1 * 6 * 0.5f);
+				tText.setPosition(ld::gameDim/2.0f, ld::gameDim*(0.8f+i*0.14f)/5.0f);
+				tText.setScale(0.08f, 0.08f);
+				mScores.push_back(score);
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
 public:
 
 	GameStateScores(std::shared_ptr<GameState>& state,
@@ -113,6 +165,7 @@ public:
 			ld::value));
 
 		submitScore(ld::playerName, mScore);
+		getScores();
 	}
 
 	virtual void handleEvent(const sf::Event& event);
@@ -124,6 +177,10 @@ public:
 		target.draw(mTextTitle, states);
 		target.draw(mTextRestart, states);
 		target.draw(mTextQuit, states);
+		for(auto score : mScores)
+		{
+			target.draw(std::get<2>(score), states);
+		}
 	}
 };
 

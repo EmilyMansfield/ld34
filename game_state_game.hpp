@@ -10,6 +10,7 @@
 #include "projectile.hpp"
 #include "constants.hpp"
 #include "text.hpp"
+#include "particles.hpp"
 
 class GameStateGame : public GameState
 {
@@ -21,6 +22,7 @@ private:
 	float mNextGen;
 	float mT;
 	std::vector<Projectile> mProjectiles;
+	ParticleTracker mParticles;
 	SubState mSubstate;
 	// SubState mPrevSubstate; // Used for resuming
 
@@ -123,6 +125,8 @@ public:
 		target.draw(mPlayer, states);
 		// Helps if I draw the damn things...
 		for(auto& projectile : mProjectiles) target.draw(projectile, states);
+		target.draw(mParticles, states);
+
 		target.draw(mTextScore, states);
 		target.draw(mTextLives, states);
 

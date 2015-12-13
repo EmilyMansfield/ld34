@@ -170,6 +170,9 @@ void GameStateGame::update(float dt)
 				{
 					if(mPlayer.lives >= 1) mPlayer.lives -= 1;
 				}
+
+				// Spawn particles
+				mParticles.spawn(5, 1.7f, 0.1f, c1, projectile.getPosition(), 0.4f);
 			}
 		}
 		// Remove dead projectiles
@@ -177,7 +180,11 @@ void GameStateGame::update(float dt)
 			std::remove_if(mProjectiles.begin(), mProjectiles.end(), [](Projectile& p) { return p.isDead(); }),
 			mProjectiles.end());
 
+		// Update the player
 		mPlayer.update(dt);
+
+		// Update the particles
+		mParticles.update(dt);
 
 		// Set the score text
 		std::string scoreStr = std::to_string(mPlayer.score);

@@ -75,9 +75,10 @@ public:
 
 	// Spawn n particles of size dim with linear velocity v
 	// in a random direction, random angular velocity from
-	// pi/2 to 4pi, color col, from position pos
+	// pi/2 to 4pi, color col, from position pos, with
+	// lifetime lifetime
 	void spawn(size_t n, float v, float dim, const sf::Color& col,
-		const sf::Vector2f pos)
+		const sf::Vector2f pos, float lifetime)
 	{
 		for(size_t i = 0; i < n; ++i)
 		{
@@ -85,6 +86,7 @@ public:
 			Particle p(dim,
 				sf::Vector2f(v*cos(theta), v*sin(theta)),
 				ld::rand(M_PI/2, 4*M_PI),
+				lifetime,
 				col);
 			p.setPosition(pos);
 			mParticles.push_back(p);
@@ -104,7 +106,7 @@ public:
 			mParticles.end());
 	}
 
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates& states) const
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
 		// Draw each particle. Called after update, so all particles are alive
 		for(auto& p : mParticles)

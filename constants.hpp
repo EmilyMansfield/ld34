@@ -34,6 +34,7 @@ extern const int leaderboardKey[];
 extern const int leaderboardKeyLength;
 extern const std::string leaderboardAuthentication;
 extern const std::string leaderboardUrl;
+extern std::string playerName;
 }
 
 #endif /* CONSTANTS_HPP */

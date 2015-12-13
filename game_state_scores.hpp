@@ -112,7 +112,7 @@ public:
 			ld::saturation,
 			ld::value));
 
-		submitScore("User", mScore);
+		submitScore(ld::playerName, mScore);
 	}
 
 	virtual void handleEvent(const sf::Event& event);

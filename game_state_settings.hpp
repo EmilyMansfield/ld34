@@ -17,12 +17,15 @@ private:
 	Text mTextTitle;
 	Text mTextMusic;
 	Text mTextBack;
+	Text mTextName;
 	Text mTextAbout;
 	Text mTextAbout2;
 	Text mTextAuthor;
 	Text mTextAuthor2;
 
 	int mSelectedOption;
+
+	std::string mNameStr;
 
 	void select(Text* ptr)
 	{
@@ -58,11 +61,13 @@ public:
 		mTextTitle("Settings"),
 		mTextMusic("Music is unavailable"),
 		mTextBack("Back"),
+		mTextName("Name " + ld::playerName),
 		mTextAbout(ld::textAbout),
 		mTextAbout2(ld::textAbout2),
 		mTextAuthor(ld::textAuthor),
 		mTextAuthor2(ld::textAuthor2),
-		mSelectedOption(0)
+		mSelectedOption(0),
+		mNameStr("Name " + ld::playerName)
 	{
 		mTextTitle.setPosition(ld::gameDim/2.0f, 0.0f);
 		mTextTitle.setOrigin(8 * 5 * 0.5f, 1 * 6 * 0.5f);
@@ -87,7 +92,12 @@ public:
 			mTextMusic.setScale(0.1f, 0.1f);
 		}
 
-		mTextBack.setPosition(ld::gameDim/2.0f, ld::gameDim*2.0f/5.0f);
+		mTextName.setString(mNameStr);
+		mTextName.setPosition(ld::gameDim/2.0f, ld::gameDim*2.0f/5.0f);
+		mTextName.setOrigin(mNameStr.size() * 5 * 0.5f, 1 * 6 * 0.5f);
+		mTextName.setScale(0.1f, 0.1f);
+
+		mTextBack.setPosition(ld::gameDim/2.0f, ld::gameDim*2.5f/5.0f);
 		mTextBack.setOrigin(4 * 5 * 0.5f, 1 * 6 * 0.5f);
 		mTextBack.setScale(0.1f, 0.1f);
 
@@ -117,6 +127,7 @@ public:
 		target.draw(mTextTitle, states);
 		target.draw(mTextMusic, states);
 		target.draw(mTextBack, states);
+		target.draw(mTextName, states);
 		target.draw(mTextAbout, states);
 		target.draw(mTextAbout2, states);
 		target.draw(mTextAuthor, states);

@@ -67,7 +67,7 @@ public:
 			// prevent repetition by rand value in (30, 90)
 			float prevHue = (mSlots.size() > 0 ? mSlots.back().first.x : ld::rand(0, 360.0f));
 			sf::Vector3f col(
-				fmod(prevHue + ld::rand(30.0f, 90.0f), 360.0f),
+				fmod(prevHue + ld::rand(60.0f, 90.0f), 360.0f),
 				ld::saturation,
 				ld::value);
 			// Selecting same colour twice?

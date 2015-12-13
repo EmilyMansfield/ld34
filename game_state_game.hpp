@@ -67,9 +67,9 @@ private:
 	{
 		if(mSubstate == SubState::TRANSITIONING && mCurrentLevel % 2 == 0) return 0.25f;
 		static const float difficultyMap[] = {
-			1.6, 1.2, 0.8, 0.5
+			1.6, 1.4, 1.2, 1.0, 0.8, 0.65, 0.5
 		};
-		return difficultyMap[(level+1)/2];
+		return difficultyMap[level];
 	}
 
 public:

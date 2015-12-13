@@ -66,6 +66,11 @@ void GameStateGame::update(float dt)
 				if(abs(mCurrentLevel) % 2 == 1)
 				{
 					mPlayer.setAlpha(mPlayer.numSlots()-1, mTransitionTimer / mTransitionLength);
+					// Adjust alpha of lives too if its the first slot
+					if(mCurrentLevel < 0)
+					{
+						mTextLives.setAlpha(mTransitionTimer / mTransitionLength);
+					}
 				}
 				if(mTransitionTimer >= mTransitionLength)
 				{

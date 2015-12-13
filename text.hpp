@@ -12,6 +12,7 @@ private:
 
 	std::string mStr;
 	std::vector<sf::RectangleShape> mRects;
+	sf::Color mCol;
 
 	void update()
 	{
@@ -53,7 +54,7 @@ private:
 					// Bits are reversed, so place a rectangle here
 					sf::RectangleShape r(sf::Vector2f(1.0f, 1.0f));
 					r.setPosition(ci * 5 + x, 6 + y);
-					r.setFillColor(sf::Color(255, 255, 255));
+					r.setFillColor(mCol);
 					r.setOutlineThickness(0.0f);
 					mRects.push_back(r);
 				}
@@ -64,8 +65,9 @@ private:
 
 public:
 
-	Text(const std::string& str) :
-		mStr(str)
+	Text(const std::string& str, const sf::Color& col = sf::Color::White) :
+		mStr(str),
+		mCol(col)
 	{			
 		update();
 	}
@@ -84,7 +86,16 @@ public:
 
 	void setColor(const sf::Color& col)
 	{
+		mCol = col;
 		for(auto& r : mRects) r.setFillColor(col);
+	}
+
+	void setAlpha(float a)
+	{
+		if(a > 1.0) a = 1.0f;
+		if(a < 0.0) a = 0.0f;
+		mCol.a = 255 * a;
+		setColor(mCol);
 	}
 };
 

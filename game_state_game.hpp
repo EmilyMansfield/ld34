@@ -109,6 +109,9 @@ public:
 		mT = -mTransitionLength;
 		mPlayer.addSlot();
 		mPlayer.setAlpha(mPlayer.numSlots()-1, 0);
+
+		mTextLives.setColor(ld::hsvToRgb(mPlayer.sample()));
+		mTextLives.setAlpha(0);
 	}
 
 	virtual void handleEvent(const sf::Event& event);

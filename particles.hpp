@@ -61,6 +61,7 @@ public:
 	{
 		mBody.setFillColor(col);
 		mBody.setOutlineThickness(0.0f);
+		mBody.setOrigin(dim/2.0f, dim/2.0f);
 	}
 
 	bool isDead() const
@@ -94,10 +95,11 @@ public:
 			float theta = ld::rand(a, b);
 			Particle p(dim,
 				sf::Vector2f(v*cos(theta), v*sin(theta)),
-				ld::rand(M_PI/2, 4*M_PI),
+				ld::rand(16*M_PI, 32*M_PI),
 				lifetime,
 				col);
 			p.setPosition(pos);
+			p.setRotation(ld::rand(0, 2*M_PI));
 			mParticles.push_back(p);
 		}
 	}

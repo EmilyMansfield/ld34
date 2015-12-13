@@ -65,10 +65,16 @@ public:
 		mTextTitle.setScale(0.2f, 0.2f);
 
 		mTextMusic.setPosition(ld::gameDim/2.0f, ld::gameDim*1.5/5.0f);
-		if(ld::musicAvailable == true)
+		if(ld::musicAvailable && ld::musicOn)
 		{
 			mTextMusic.setString("Music is on");
 			mTextMusic.setOrigin(11 * 5 * 0.5f, 1 * 6 * 0.5f);
+			mTextMusic.setScale(0.2f, 0.2f);
+		}
+		else if(ld::musicAvailable)
+		{	
+			mTextMusic.setString("Music is off");
+			mTextMusic.setOrigin(12 * 5 * 0.5f, 1 * 6 * 0.5f);
 			mTextMusic.setScale(0.2f, 0.2f);
 		}
 		else

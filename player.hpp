@@ -100,7 +100,7 @@ public:
 		mRotating(false),
 		mDir(0),
 		score(0),
-		lives(2)
+		lives(3)
 	{
 		// Create main body rectangle
 		mBody.setFillColor(ld::playerCol);

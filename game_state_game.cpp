@@ -153,14 +153,15 @@ void GameStateGame::update(float dt)
 			// Spawn trail particles
 			if(mT2 > mTrailEmissionInterval)
 			{
+				// Not anymore!
 				// Trail is in a fan of small angle behind the projectile,
 				// equivalent to negative velocity in front of the projectile
 				// North = (0, 90) => (1pi/4, 3pi/4)
 				// West = (90, 180) => (3pi/4, 5pi/4)
 				// South = (180, 270) => (5pi/4, 7pi/4)
 				// East = (270, 360) => (7pi/4, 9pi/4)
-				float a = projectile.getDir() / 90.0f * M_PI / 2.0f + M_PI / 4.0f;
-				float b = a + M_PI / 2.0f;
+				// float a = projectile.getDir() / 90.0f * M_PI / 2.0f + M_PI / 4.0f;
+				// float b = a + M_PI / 2.0f;
 				mParticles.spawn(
 					1,		// n
 					0.0f,	// v

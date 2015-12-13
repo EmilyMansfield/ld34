@@ -4,6 +4,7 @@
 #include <string>
 
 #include "game_state_title.hpp"
+#include "game_state_settings.hpp"
 #include "game_state_game.hpp"
 #include "util.hpp"
 #include "constants.hpp"
@@ -23,6 +24,11 @@ void GameStateTitle::handleEvent(const sf::Event& event)
 			{
 				std::shared_ptr<GameState> thisState = mState;
 				mState.reset(new GameStateGame(mState, thisState));
+			}
+			else if(mSelectedOption == 1)
+			{
+				std::shared_ptr<GameState> thisState = mState;
+				mState.reset(new GameStateSettings(mState, thisState));
 			}
 		}
 	}

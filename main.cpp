@@ -33,10 +33,10 @@ int main()
 
 	// Start the music
 	sf::Music music;
-	bool musicOn = false;
 	if(music.openFromFile(ld::musicPath))
 	{
-		musicOn = true;
+		ld::musicAvailable = true;
+		ld::musicOn = true;
 		music.setLoop(true);
 		music.setVolume(40.0f);
 		music.play();
@@ -54,6 +54,18 @@ int main()
 	while(window.isOpen())
 	{
 		float dt = clock.restart().asSeconds();
+
+		// Check music
+		if(ld::musicAvailable && !ld::musicOn && music.getStatus() == sf::SoundSource::Playing)
+		{
+			ld::musicOn = false;
+			music.stop();
+		}
+		else if(ld::musicAvailable && ld::musicOn && music.getStatus() == sf::SoundSource::Stopped)
+		{
+			ld::musicOn = true;
+			music.play();
+		}
 
 		// Handle events
 		sf::Event event;

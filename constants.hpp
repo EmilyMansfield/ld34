@@ -24,6 +24,10 @@ extern const char* musicPath;
 extern const char* hitSoundGoodPath;
 extern const char* hitSoundBadPath;
 extern const char* deadSoundPath;
+extern const std::string textAbout;
+extern const std::string textAuthor;
+extern bool musicAvailable;
+extern bool musicOn;
 }
 
 #endif /* CONSTANTS_HPP */

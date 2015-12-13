@@ -29,3 +29,7 @@ const char* ld::musicPath = "assets/music.ogg";
 const char* ld::hitSoundGoodPath = "assets/collision-good.wav";
 const char* ld::hitSoundBadPath = "assets/collision-bad.wav";
 const char* ld::deadSoundPath = "assets/dead.wav";
+const std::string ld::textAbout = "Created for Ludum Dare 34";
+const std::string ld::textAuthor = "Daniel Mansfield (Piepenguin1995)";
+bool ld::musicAvailable = false;
+bool ld::musicOn = false;

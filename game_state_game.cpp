@@ -195,8 +195,6 @@ void GameStateGame::update(float dt)
 			projectile.update(dt);
 			if(!projectile.isDead() && playerBounds.intersects(prBounds) && mSubstate != SubState::DYING)
 			{
-				projectile.kill();
-
 				sf::Color c1 = projectile.getCol();
 				sf::Color c2 = mPlayer.colOnSide(dirToFacing(projectile.getDir()));
 				if(abs(c1.r-c2.r) < 5 && abs(c1.g-c2.g) < 5 && abs(c1.b-c2.b) < 5)
@@ -240,6 +238,7 @@ void GameStateGame::update(float dt)
 						mHitSound.setBuffer(mHitSoundBufBad);
 						mHitSound.play();
 					}
+
 				}
 
 				// Calculate possible particle projection angle to avoid intersection
@@ -262,6 +261,8 @@ void GameStateGame::update(float dt)
 					0.4f,	// lifetime
 					c1,
 					projectile.getPosition());
+
+				projectile.kill();
 			}
 		}
 		// Remove dead projectiles

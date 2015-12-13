@@ -123,7 +123,9 @@ public:
 		if(mRotateInterp > 1.0f)
 		{
 			mRotateInterp = 0.0f;
-			mDir = (mDir + mRotating) % 4;
+			mDir = mDir + mRotating;
+			if(mDir >= 4) mDir -= 4;
+			else if(mDir < 0) mDir += 4;
 			mRotating = 0;
 		}
 		setRotation(getAngle());
@@ -153,7 +155,8 @@ public:
 	sf::Color colOnSide(float dir) const
 	{
 		// First slot is north, others proceed N,E,S,W
-		size_t slot = static_cast<int>(dir - mDir) % 4;
+		int slot = static_cast<int>(dir - mDir);
+		if(slot < 0) slot += 4;
 		if(slot >= mSlots.size())
 			return sf::Color(0,0,0);
 		else
@@ -204,6 +207,11 @@ public:
 		if(mSlots.size() == 0) return sf::Color::Black;
 		if(slot > mSlots.size()) slot = mSlots.size()-1;
 		return ld::hsvToRgb(mSlots[slot].first);
+	}
+
+	int getDir() const
+	{
+		return mDir;
 	}
 };
 

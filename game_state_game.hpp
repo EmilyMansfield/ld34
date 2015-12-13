@@ -29,7 +29,9 @@ private:
 
 	sf::SoundBuffer mHitSoundBufGood;
 	sf::SoundBuffer mHitSoundBufBad;
+	sf::SoundBuffer mDeadSoundBuf;
 	sf::Sound mHitSound;
+	sf::Sound mDeadSound;
 
 	Text mTextScore;
 	Text mTextPause;
@@ -113,6 +115,7 @@ public:
 		// Load sounds
 		mHitSoundBufGood.loadFromFile(ld::hitSoundGoodPath);
 		mHitSoundBufBad.loadFromFile(ld::hitSoundBadPath);
+		mDeadSoundBuf.loadFromFile(ld::deadSoundPath);
 
 		// Instantly triggers level -1 -> 0 which fades in a new slot
 		// Projectiles are not fired until after the projectile is

@@ -23,6 +23,7 @@ extern const std::string gameName;
 extern const char* musicPath;
 extern const char* hitSoundGoodPath;
 extern const char* hitSoundBadPath;
+extern const char* deadSoundPath;
 }
 
 #endif /* CONSTANTS_HPP */

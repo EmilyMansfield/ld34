@@ -171,8 +171,17 @@ void GameStateGame::update(float dt)
 				else
 				{
 					if(mPlayer.lives >= 1) mPlayer.lives -= 1;
-					mHitSound.setBuffer(mHitSoundBufBad);
-					mHitSound.play();
+					if(mPlayer.lives <= 0)
+					{
+						// Kill the player
+						mDeadSound.setBuffer(mDeadSoundBuf);
+						mDeadSound.play();
+					}
+					else
+					{
+						mHitSound.setBuffer(mHitSoundBufBad);
+						mHitSound.play();
+					}
 				}
 
 				// Calculate possible particle projection angle to avoid intersection

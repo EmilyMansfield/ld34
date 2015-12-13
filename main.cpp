@@ -38,7 +38,7 @@ int main()
 	{
 		musicOn = true;
 		music.setLoop(true);
-		music.setVolume(80.0f);
+		music.setVolume(40.0f);
 		music.play();
 	}
 	// Pointer to current game state

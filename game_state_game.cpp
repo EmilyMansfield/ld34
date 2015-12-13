@@ -187,7 +187,7 @@ void GameStateGame::update(float dt)
 					1.7f,	// v
 					a,		// a
 					b,		// b
-					0.1f,	// dim
+					0.15f,	// dim
 					0.4f,	// lifetime
 					c1,
 					projectile.getPosition());

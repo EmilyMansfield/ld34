@@ -85,6 +85,8 @@ int main()
 		window.clear(ld::backgroundCol);
 		if(state != nullptr) window.draw(*state);
 		window.display();
+
+		if(state == nullptr) window.close();
 	}
 
 	return 0;

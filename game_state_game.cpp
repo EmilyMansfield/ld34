@@ -4,6 +4,7 @@
 #include <string>
 
 #include "game_state_game.hpp"
+#include "game_state_scores.hpp"
 #include "util.hpp"
 #include "constants.hpp"
 
@@ -101,6 +102,16 @@ void GameStateGame::update(float dt)
 					mPlayer.addSlot();
 					mPlayer.setAlpha(mPlayer.numSlots()-1, 0);
 				}
+			}
+		}
+		else if(mSubstate == SubState::DYING)
+		{
+			mTransitionTimer += dt;
+			if(mTransitionTimer >= mTransitionLength)
+			{
+				std::shared_ptr<GameState> thisState = mState;
+				mState.reset(new GameStateScores(mState, thisState));
+				return;
 			}
 		}
 
@@ -203,6 +214,7 @@ void GameStateGame::update(float dt)
 						mDeadSound.setBuffer(mDeadSoundBuf);
 						mDeadSound.play();
 						mSubstate = SubState::DYING;
+						mTransitionTimer = 0.0f;
 						mParticles.spawn(9-mPlayer.numSlots(),
 							1.7f,
 							0.0f,

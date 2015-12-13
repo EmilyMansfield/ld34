@@ -177,7 +177,7 @@ void GameStateGame::update(float dt)
 						mDeadSound.setBuffer(mDeadSoundBuf);
 						mDeadSound.play();
 						mSubstate = SubState::DYING;
-						mParticles.spawn(9,
+						mParticles.spawn(9-mPlayer.numSlots(),
 							1.7f,
 							0.0f,
 							2.0f*M_PI,
@@ -185,6 +185,17 @@ void GameStateGame::update(float dt)
 							0.6f,
 							ld::playerCol,
 							mPlayer.getPosition());
+						for(size_t i = 0; i < mPlayer.numSlots(); ++i)
+						{
+							mParticles.spawn(1,
+								1.7f,
+								0.0f,
+								2.0f*M_PI,
+								1.0f/3.0f,
+								0.6f,
+								mPlayer.getCol(i),
+								mPlayer.getPosition());
+						}
 					}
 					else
 					{

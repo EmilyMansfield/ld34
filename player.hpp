@@ -198,6 +198,13 @@ public:
 	{
 		return mSlots.size();
 	}
+
+	sf::Color getCol(size_t slot) const
+	{
+		if(mSlots.size() == 0) return sf::Color::Black;
+		if(slot > mSlots.size()) slot = mSlots.size()-1;
+		return ld::hsvToRgb(mSlots[slot].first);
+	}
 };
 
 #endif /* PLAYER_HPP */

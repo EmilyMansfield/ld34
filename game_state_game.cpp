@@ -106,6 +106,7 @@ void GameStateGame::update(float dt)
 
 		// Generate new projectiles if necessary
 		mT += dt;
+		mT2 += dt;
 		if(mT >= mNextGen && mSubstate != SubState::TRANSITIONED && mSubstate != SubState::DYING)
 		{
 			mT = 0.0f;
@@ -149,6 +150,30 @@ void GameStateGame::update(float dt)
 		sf::FloatRect playerBounds = mPlayer.bounds();
 		for(auto& projectile : mProjectiles)
 		{
+			// Spawn trail particles
+			if(mT2 > mTrailEmissionInterval)
+			{
+				// Trail is in a fan of small angle behind the projectile,
+				// equivalent to negative velocity in front of the projectile
+				// North = (0, 90) => (1pi/4, 3pi/4)
+				// West = (90, 180) => (3pi/4, 5pi/4)
+				// South = (180, 270) => (5pi/4, 7pi/4)
+				// East = (270, 360) => (7pi/4, 9pi/4)
+				float a = projectile.getDir() / 90.0f * M_PI / 2.0f + M_PI / 4.0f;
+				float b = a + M_PI / 2.0f;
+				mParticles.spawn(
+					1,		// n
+					0.0f,	// v
+					0,		// a
+					0,		// b
+					1.0f/3.0f,	// dim
+					0.2f,	// lifetime
+					projectile.getCol(),
+					projectile.getPosition(),
+					false	// No rotation
+					);
+			}
+
 			sf::FloatRect prBounds = projectile.bounds();
 			// If transitioning, change the colour of all the projectiles
 			if(mSubstate == SubState::TRANSITIONING && ld::hueCycling)
@@ -230,6 +255,10 @@ void GameStateGame::update(float dt)
 		mProjectiles.erase(
 			std::remove_if(mProjectiles.begin(), mProjectiles.end(), [](Projectile& p) { return p.isDead(); }),
 			mProjectiles.end());
+
+		// Reset trail particle timer
+		if(mT2 > mTrailEmissionInterval)
+			mT2 = 0.0f;
 
 		// Update the player
 		mPlayer.update(dt);

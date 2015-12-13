@@ -88,7 +88,8 @@ public:
 		float dim,	// Width and height of each particle
 		float lifetime,
 		const sf::Color& col,
-		const sf::Vector2f pos)
+		const sf::Vector2f pos,
+		bool rotation = true)
 	{
 		for(size_t i = 0; i < n; ++i)
 		{
@@ -100,6 +101,11 @@ public:
 				col);
 			p.setPosition(pos);
 			p.setRotation(ld::rand(0, 2*M_PI));
+			if(!rotation)
+			{
+				p.setRotation(0.0f);
+				p.mW = 0.0f;
+			}
 			mParticles.push_back(p);
 		}
 	}

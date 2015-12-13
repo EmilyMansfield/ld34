@@ -22,6 +22,8 @@ private:
 	Player mPlayer;
 	float mNextGen;
 	float mT;
+	float mT2;
+	float mTrailEmissionInterval;
 	std::vector<Projectile> mProjectiles;
 	ParticleTracker mParticles;
 	SubState mSubstate;
@@ -90,6 +92,8 @@ public:
 		mPlayer(1.0f),
 		mNextGen(2.0f),
 		mT(0.0f),
+		mT2(0.0f),
+		mTrailEmissionInterval(0.1f),
 		mSubstate(SubState::TRANSITIONING),
 		mTextScore("0"),
 		mTextPause("PAUSED"),

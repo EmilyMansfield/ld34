@@ -107,7 +107,7 @@ public:
 		mBody.setOutlineThickness(0.0f);
 		mBody.setOrigin(dim / 2.0f, dim / 2.0f);
 
-		addSlot();
+		// addSlot();
 	}
 
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const

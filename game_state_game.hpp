@@ -80,14 +80,14 @@ public:
 		mPlayer(1.0f),
 		mNextGen(2.0f),
 		mT(0.0f),
-		mSubstate(SubState::PLAY),
+		mSubstate(SubState::TRANSITIONING),
 		mTextScore("0"),
 		mTextPause("PAUSED"),
 		mTextLives("^"),
 		mDuration(0.0f),
 		mTransitionTimer(0.0),
 		mTransitionLength(2.0f),
-		mCurrentLevel(0)
+		mCurrentLevel(-1)
 	{
 		mPlayer.setPosition(ld::gameDim/2.0f, ld::gameDim/2.0f);
 
@@ -101,6 +101,14 @@ public:
 		mTextPause.setPosition(ld::gameDim/2.0f, ld::gameDim/2.0f);
 		mTextPause.setOrigin(6 * 5 * 0.5f, 1 * 6 * 0.5f);
 		mTextPause.setScale(0.2f, 0.2f);
+
+		// Instantly triggers level -1 -> 0 which fades in a new slot
+		// Projectiles are not fired until after the projectile is
+		// created
+		mTransitionTimer = 0;
+		mT = -mTransitionLength;
+		mPlayer.addSlot();
+		mPlayer.setAlpha(mPlayer.numSlots()-1, 0);
 	}
 
 	virtual void handleEvent(const sf::Event& event);

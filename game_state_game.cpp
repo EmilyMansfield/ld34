@@ -63,7 +63,7 @@ void GameStateGame::update(float dt)
 			{
 				mTransitionTimer += dt;
 				// Odd level so fade in new slot
-				if(mCurrentLevel % 2 == 1)
+				if(abs(mCurrentLevel) % 2 == 1)
 				{
 					mPlayer.setAlpha(mPlayer.numSlots()-1, mTransitionTimer / mTransitionLength);
 				}
@@ -91,7 +91,7 @@ void GameStateGame::update(float dt)
 				mSubstate = SubState::TRANSITIONING;
 				mTransitionTimer = 0;
 				// Odd level so add new slot
-				if(mCurrentLevel % 2 == 1)
+				if(abs(mCurrentLevel) % 2 == 1)
 				{
 					mPlayer.addSlot();
 					mPlayer.setAlpha(mPlayer.numSlots()-1, 0);

@@ -56,15 +56,15 @@ public:
 		mTextQuit("Quit"),
 		mSelectedOption(0)
 	{
-		mTextTitle.setPosition(ld::gameDim/2.0f, ld::gameDim/5.0f);
+		mTextTitle.setPosition(ld::gameDim/2.0f, 0.0f);
 		mTextTitle.setOrigin(11 * 5 * 0.5f, 1 * 6 * 0.5f);
 		mTextTitle.setScale(0.2f, 0.2f);
 
-		mTextRestart.setPosition(ld::gameDim/2.0f, ld::gameDim*3.5f/5.0f);
+		mTextRestart.setPosition(ld::gameDim/2.0f, ld::gameDim*4.0f/5.0f);
 		mTextRestart.setOrigin(7 * 5 * 0.5f, 1 * 6 * 0.5f);
 		mTextRestart.setScale(0.1f, 0.1f);
 
-		mTextQuit.setPosition(ld::gameDim/2.0f, ld::gameDim*4.0f/5.0f);
+		mTextQuit.setPosition(ld::gameDim/2.0f, ld::gameDim*4.5f/5.0f);
 		mTextQuit.setOrigin(4 * 5 * 0.5f, 1 * 6 * 0.5f);
 		mTextQuit.setScale(0.1f, 0.1f);
 

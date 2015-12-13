@@ -25,7 +25,9 @@ extern const char* hitSoundGoodPath;
 extern const char* hitSoundBadPath;
 extern const char* deadSoundPath;
 extern const std::string textAbout;
+extern const std::string textAbout2;
 extern const std::string textAuthor;
+extern const std::string textAuthor2;
 extern bool musicAvailable;
 extern bool musicOn;
 }

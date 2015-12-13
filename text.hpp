@@ -35,6 +35,8 @@ private:
 			else if(c == '?') i = 40;
 			else if(c == '@') i = 41;
 			else if(c == '^') i = 42;
+			else if(c == '(' || c == '[') i = 43;
+			else if(c == ')' || c == ']') i = 44;
 			else i = 36;
 
 			// Get pixmap representation

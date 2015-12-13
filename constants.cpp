@@ -18,7 +18,7 @@ const unsigned int ld::fontPixmap[] = {
 	0x3f1ad6b1, 0x3fd8d6b1, 0x3e1ad6b1, 0x3f5cd6b9, 0x3f1bc7b1, 0x3fbdef71, 
 	0x3f1ad6b5, 0x3fbad6b5, 0x3f55294e, 0x3f5aeeb5, 0x3fbdd6b5, 0x3f1eeef1, 
 	0x3fffffff, 0x3f9cffff, 0x3f1cffff, 0x3fbfef7b, 0x3fbfcef3, 0x3f1ad6f1, 
-	0x3fb8c6bf, 0x3fffffff, 0x3fffffff, 0x3fffffff, 0xfffff
+	0x3fb8c6bf, 0x3f9ef7b9, 0x3f3bdef3, 0x3fffffff, 0x0
 };
 const float ld::levelTimers[] = {
 	10.0, 30.0f, 60.0f, 120.0f, 180.0f, 240.0f, 300.0f
@@ -29,7 +29,9 @@ const char* ld::musicPath = "assets/music.ogg";
 const char* ld::hitSoundGoodPath = "assets/collision-good.wav";
 const char* ld::hitSoundBadPath = "assets/collision-bad.wav";
 const char* ld::deadSoundPath = "assets/dead.wav";
-const std::string ld::textAbout = "Created for Ludum Dare 34";
-const std::string ld::textAuthor = "Daniel Mansfield (Piepenguin1995)";
+const std::string ld::textAbout = "Created for";
+const std::string ld::textAbout2 = "Ludum Dare 34";
+const std::string ld::textAuthor = "By Daniel Mansfield";
+const std::string ld::textAuthor2 = "(Piepenguin1995)";
 bool ld::musicAvailable = false;
 bool ld::musicOn = false;

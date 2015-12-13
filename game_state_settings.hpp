@@ -18,7 +18,9 @@ private:
 	Text mTextMusic;
 	Text mTextBack;
 	Text mTextAbout;
+	Text mTextAbout2;
 	Text mTextAuthor;
+	Text mTextAuthor2;
 
 	int mSelectedOption;
 
@@ -57,7 +59,9 @@ public:
 		mTextMusic("Music is unavailable"),
 		mTextBack("Back"),
 		mTextAbout(ld::textAbout),
+		mTextAbout2(ld::textAbout2),
 		mTextAuthor(ld::textAuthor),
+		mTextAuthor2(ld::textAuthor2),
 		mSelectedOption(0)
 	{
 		mTextTitle.setPosition(ld::gameDim/2.0f, 0.0f);
@@ -69,13 +73,13 @@ public:
 		{
 			mTextMusic.setString("Music is on");
 			mTextMusic.setOrigin(11 * 5 * 0.5f, 1 * 6 * 0.5f);
-			mTextMusic.setScale(0.2f, 0.2f);
+			mTextMusic.setScale(0.1f, 0.1f);
 		}
 		else if(ld::musicAvailable)
 		{	
 			mTextMusic.setString("Music is off");
 			mTextMusic.setOrigin(12 * 5 * 0.5f, 1 * 6 * 0.5f);
-			mTextMusic.setScale(0.2f, 0.2f);
+			mTextMusic.setScale(0.1f, 0.1f);
 		}
 		else
 		{
@@ -83,9 +87,23 @@ public:
 			mTextMusic.setScale(0.1f, 0.1f);
 		}
 
-		mTextBack.setPosition(ld::gameDim/2.0f, ld::gameDim*2.5/5.0f);
+		mTextBack.setPosition(ld::gameDim/2.0f, ld::gameDim*2.0f/5.0f);
 		mTextBack.setOrigin(4 * 5 * 0.5f, 1 * 6 * 0.5f);
-		mTextBack.setScale(0.2f, 0.2f);
+		mTextBack.setScale(0.1f, 0.1f);
+
+		mTextAbout.setPosition(ld::gameDim/2.0f, ld::gameDim*3.0f/5.0f);
+		mTextAbout.setOrigin(ld::textAbout.size() * 5 * 0.5f, 1 * 6 * 0.5f);
+		mTextAbout.setScale(0.1f, 0.1f);
+		mTextAbout2.setPosition(ld::gameDim/2.0f, ld::gameDim*3.5f/5.0f);
+		mTextAbout2.setOrigin(ld::textAbout2.size() * 5 * 0.5f, 1 * 6 * 0.5f);
+		mTextAbout2.setScale(0.1f, 0.1f);
+
+		mTextAuthor.setPosition(ld::gameDim/2.0f, ld::gameDim*4.0f/5.0f);
+		mTextAuthor.setOrigin(ld::textAuthor.size() * 5 * 0.5f, 1 * 6 * 0.5f);
+		mTextAuthor.setScale(0.1f, 0.1f);
+		mTextAuthor2.setPosition(ld::gameDim/2.0f, ld::gameDim*4.5f/5.0f);
+		mTextAuthor2.setOrigin(ld::textAuthor2.size() * 5 * 0.5f, 1 * 6 * 0.5f);
+		mTextAuthor2.setScale(0.1f, 0.1f);
 
 		selectOption();
 	}
@@ -99,6 +117,10 @@ public:
 		target.draw(mTextTitle, states);
 		target.draw(mTextMusic, states);
 		target.draw(mTextBack, states);
+		target.draw(mTextAbout, states);
+		target.draw(mTextAbout2, states);
+		target.draw(mTextAuthor, states);
+		target.draw(mTextAuthor2, states);
 	}
 };
 

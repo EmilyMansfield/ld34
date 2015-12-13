@@ -106,7 +106,7 @@ void GameStateGame::update(float dt)
 
 		// Generate new projectiles if necessary
 		mT += dt;
-		if(mT >= mNextGen && mSubstate != SubState::TRANSITIONED)
+		if(mT >= mNextGen && mSubstate != SubState::TRANSITIONED && mSubstate != SubState::DYING)
 		{
 			mT = 0.0f;
 			mNextGen = getGenerationInterval(mCurrentLevel);
@@ -156,7 +156,7 @@ void GameStateGame::update(float dt)
 				projectile.cycleHue(50.0f*dt);
 			}
 			projectile.update(dt);
-			if(!projectile.isDead() && playerBounds.intersects(prBounds))
+			if(!projectile.isDead() && playerBounds.intersects(prBounds) && mSubstate != SubState::DYING)
 			{
 				projectile.kill();
 
@@ -176,6 +176,15 @@ void GameStateGame::update(float dt)
 						// Kill the player
 						mDeadSound.setBuffer(mDeadSoundBuf);
 						mDeadSound.play();
+						mSubstate = SubState::DYING;
+						mParticles.spawn(9,
+							1.7f,
+							0.0f,
+							2.0f*M_PI,
+							1.0f/3.0f,
+							0.6f,
+							ld::playerCol,
+							mPlayer.getPosition());
 					}
 					else
 					{

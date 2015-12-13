@@ -17,7 +17,7 @@ class GameStateGame : public GameState
 {
 private:
 
-	enum class SubState {PLAY, PAUSE, TRANSITIONING, TRANSITIONED};
+	enum class SubState {PLAY, PAUSE, TRANSITIONING, TRANSITIONED, DYING};
 
 	Player mPlayer;
 	float mNextGen;
@@ -135,7 +135,10 @@ public:
 
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
-		target.draw(mPlayer, states);
+		if(mSubstate != SubState::DYING)
+		{
+			target.draw(mPlayer, states);
+		}
 		// Helps if I draw the damn things...
 		for(auto& projectile : mProjectiles) target.draw(projectile, states);
 		target.draw(mParticles, states);

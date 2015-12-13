@@ -1,5 +1,6 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <string>
 #include <memory>
 #include <cstdlib>
@@ -30,6 +31,16 @@ int main()
 	view.setCenter(ld::gameDim/2.0f, ld::gameDim/2.0f);
 	window.setView(view);
 
+	// Start the music
+	sf::Music music;
+	bool musicOn = false;
+	if(music.openFromFile(ld::musicPath))
+	{
+		musicOn = true;
+		music.setLoop(true);
+		music.setVolume(80.0f);
+		music.play();
+	}
 	// Pointer to current game state
 	std::shared_ptr<GameState> state;
 

@@ -20,6 +20,7 @@ extern const unsigned int fontPixmap[];
 extern const float levelTimers[];
 extern const bool hueCycling;
 extern const std::string gameName;
+extern const char* musicPath;
 }
 
 #endif /* CONSTANTS_HPP */

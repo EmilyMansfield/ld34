@@ -71,6 +71,7 @@ private:
 		static const float difficultyMap[] = {
 			1.6, 1.4, 1.2, 1.0, 0.8, 0.65, 0.5
 		};
+		// Translates to BPM for music, have two beats per note?
 		return difficultyMap[level];
 	}
 

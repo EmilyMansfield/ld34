@@ -25,3 +25,4 @@ const float ld::levelTimers[] = {
 };
 const bool ld::hueCycling = false;
 const std::string ld::gameName("Squares");
+const char* ld::musicPath = "assets/music.ogg";

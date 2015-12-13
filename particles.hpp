@@ -21,6 +21,8 @@ private:
 	float mW;
 	// Current lifetime of the particle in seconds
 	float mLifetime;
+	// Maximum lifetime (for alpha transitions)
+	float mMaxLifetime;
 
 	// Particle appearance
 	sf::RectangleShape mBody;
@@ -33,6 +35,9 @@ private:
 			mLifetime -= dt;
 			move(dt * mV);
 			rotate(dt * mW);
+			// Simple linear fade
+			mCol.a = 255.0f * (mLifetime / mMaxLifetime);
+			mBody.setFillColor(mCol);
 		}
 	}
 
@@ -50,6 +55,7 @@ public:
 		mV(v),
 		mW(w),
 		mLifetime(lifetime),
+		mMaxLifetime(lifetime),
 		mBody(sf::Vector2f(dim, dim)),
 		mCol(col)
 	{

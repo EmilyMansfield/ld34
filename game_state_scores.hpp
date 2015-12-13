@@ -121,9 +121,15 @@ private:
 						[](char c) { return c < '0' || (c > '9' && c < 'A') || c > 'Z'; }),
 					tName.end());
 
-				tText.setString(tName);
+				// Expand to 12 chars
+				std::string textStr = tName;
+				if(textStr.size() < 12) textStr.append(12-tName.size(), ' ');
+
+				// Format text
+				textStr = std::to_string(i/2 + 1) + ". " + textStr + " " + std::to_string(tScore);
+				tText.setString(textStr);
 				tText.setColor(sf::Color::White);
-				tText.setOrigin(tName.size() * 5 * 0.5f, 1 * 6 * 0.5f);
+				tText.setOrigin(textStr.size() * 5 * 0.5f, 1 * 6 * 0.5f);
 				tText.setPosition(ld::gameDim/2.0f, ld::gameDim*(0.8f+i*0.14f)/5.0f);
 				tText.setScale(0.08f, 0.08f);
 				mScores.push_back(score);

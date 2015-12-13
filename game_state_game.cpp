@@ -171,8 +171,26 @@ void GameStateGame::update(float dt)
 					if(mPlayer.lives >= 1) mPlayer.lives -= 1;
 				}
 
+				// Calculate possible particle projection angle to avoid intersection
+				// with the player
+				// North = 0 => (pi, 2pi)
+				// East =  1 => (-pi/2, pi/2)
+				// South = 2 => (0, pi)
+				// West =  3 => (pi/2, 3pi/2)
+				const static float angleMapA[] = {1.0f, -0.5f, 0.0f, 0.5f};
+				const static float angleMapB[] = {2.0f,  0.5f, 1.0f, 1.5f};
+				float a = angleMapA[static_cast<int>(dirToFacing(projectile.getDir()))] * M_PI;
+				float b = angleMapB[static_cast<int>(dirToFacing(projectile.getDir()))] * M_PI;
 				// Spawn particles
-				mParticles.spawn(5, 1.7f, 0.1f, c1, projectile.getPosition(), 0.4f);
+				mParticles.spawn(
+					5,		// n
+					1.7f,	// v
+					a,		// a
+					b,		// b
+					0.1f,	// dim
+					0.4f,	// lifetime
+					c1,
+					projectile.getPosition());
 			}
 		}
 		// Remove dead projectiles

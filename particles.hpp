@@ -79,16 +79,19 @@ public:
 
 	ParticleTracker() {}
 
-	// Spawn n particles of size dim with linear velocity v
-	// in a random direction, random angular velocity from
-	// pi/2 to 4pi, color col, from position pos, with
-	// lifetime lifetime
-	void spawn(size_t n, float v, float dim, const sf::Color& col,
-		const sf::Vector2f pos, float lifetime)
+	void spawn(
+		size_t n,	// Number of particles
+		float v,	// Magnitude of linear velocity
+		float a,	// Angular bounds of velocity direction
+		float b,	//
+		float dim,	// Width and height of each particle
+		float lifetime,
+		const sf::Color& col,
+		const sf::Vector2f pos)
 	{
 		for(size_t i = 0; i < n; ++i)
 		{
-			float theta = ld::rand(0, 2*M_PI);
+			float theta = ld::rand(a, b);
 			Particle p(dim,
 				sf::Vector2f(v*cos(theta), v*sin(theta)),
 				ld::rand(M_PI/2, 4*M_PI),

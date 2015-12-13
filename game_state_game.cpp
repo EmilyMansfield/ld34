@@ -110,7 +110,7 @@ void GameStateGame::update(float dt)
 			if(mTransitionTimer >= mTransitionLength)
 			{
 				std::shared_ptr<GameState> thisState = mState;
-				mState.reset(new GameStateScores(mState, thisState));
+				mState.reset(new GameStateScores(mState, thisState, mPlayer.score));
 				return;
 			}
 		}

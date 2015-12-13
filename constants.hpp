@@ -30,6 +30,9 @@ extern const std::string textAuthor;
 extern const std::string textAuthor2;
 extern bool musicAvailable;
 extern bool musicOn;
+extern const int leaderboardKey[];
+extern const int leaderboardKeyLength;
+extern const std::string leaderboardAuthentication;
 }
 
 #endif /* CONSTANTS_HPP */

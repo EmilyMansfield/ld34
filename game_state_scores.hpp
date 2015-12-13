@@ -3,7 +3,11 @@
 
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
+#include <SFML/Network.hpp>
 #include <cmath>
+#include <vector>
+#include <iostream>
+#include <string>
 
 #include "game_state.hpp"
 #include "constants.hpp"
@@ -19,6 +23,8 @@ private:
 	Text mTextQuit;
 
 	int mSelectedOption;
+
+	unsigned long mScore;
 
 	void select(Text* ptr)
 	{
@@ -46,15 +52,35 @@ private:
 		}
 	}
 
+	std::string createSubmission(const std::string& name, unsigned long score)
+	{
+		// Add some 'encryption'. Please don't take this as a challenge or anything
+		std::string packet = ld::leaderboardAuthentication +
+			"n: " + name + "; " + "s: " + std::to_string(score);
+		if(ld::leaderboardKeyLength < 0) return "";
+
+		std::string msg = "[";
+		for(size_t i = 0; i < packet.size(); ++i)
+		{
+			msg += std::to_string(static_cast<int>(packet[i]) ^ ld::leaderboardKey[i % ld::leaderboardKeyLength]);
+			if(i < packet.size() - 1) msg += ",";
+		}
+		msg += "]";
+
+		return msg;
+	}
+
 public:
 
 	GameStateScores(std::shared_ptr<GameState>& state,
-		std::shared_ptr<GameState>& prevState) :
+		std::shared_ptr<GameState>& prevState,
+		unsigned long score) :
 		GameState(state, prevState),
 		mTextTitle("Leaderboard"),
 		mTextRestart("Restart"),
 		mTextQuit("Quit"),
-		mSelectedOption(0)
+		mSelectedOption(0),
+		mScore(score)
 	{
 		mTextTitle.setPosition(ld::gameDim/2.0f, 0.0f);
 		mTextTitle.setOrigin(11 * 5 * 0.5f, 1 * 6 * 0.5f);
@@ -72,6 +98,8 @@ public:
 			ld::rand(0.0f, 360.0f),
 			ld::saturation,
 			ld::value));
+
+		std::cout << createSubmission("Dan", 1500) << std::endl;
 	}
 
 	virtual void handleEvent(const sf::Event& event);

@@ -1,5 +1,15 @@
 #include "constants.hpp"
 
+#ifndef LEADERBOARD_KEY
+	#define LEADERBOARD_KEY { 0 };
+#endif
+#ifndef LEADERBOARD_KEY_LENGTH
+	#define LEADERBOARD_KEY_LENGTH -1;
+#endif
+#ifndef LEADERBOARD_AUTHENTICATION
+	#define LEADERBOARD_AUTHENTICATION "";
+#endif
+
 const unsigned int ld::width = 600;
 const unsigned int ld::height = 600;
 float ld::gameDim = 12.0f;
@@ -35,3 +45,6 @@ const std::string ld::textAuthor = "By Daniel Mansfield";
 const std::string ld::textAuthor2 = "(Piepenguin1995)";
 bool ld::musicAvailable = false;
 bool ld::musicOn = false;
+const int ld::leaderboardKey[] = LEADERBOARD_KEY;
+const int ld::leaderboardKeyLength = LEADERBOARD_KEY_LENGTH;
+const std::string ld::leaderboardAuthentication = LEADERBOARD_AUTHENTICATION;

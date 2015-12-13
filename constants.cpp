@@ -26,3 +26,5 @@ const float ld::levelTimers[] = {
 const bool ld::hueCycling = false;
 const std::string ld::gameName("Squares");
 const char* ld::musicPath = "assets/music.ogg";
+const char* ld::hitSoundGoodPath = "assets/collision-good.wav";
+const char* ld::hitSoundBadPath = "assets/collision-bad.wav";

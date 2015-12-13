@@ -21,6 +21,8 @@ extern const float levelTimers[];
 extern const bool hueCycling;
 extern const std::string gameName;
 extern const char* musicPath;
+extern const char* hitSoundGoodPath;
+extern const char* hitSoundBadPath;
 }
 
 #endif /* CONSTANTS_HPP */

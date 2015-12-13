@@ -3,6 +3,7 @@
 
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <cmath>
 
 #include "game_state.hpp"
@@ -25,6 +26,10 @@ private:
 	ParticleTracker mParticles;
 	SubState mSubstate;
 	// SubState mPrevSubstate; // Used for resuming
+
+	sf::SoundBuffer mHitSoundBufGood;
+	sf::SoundBuffer mHitSoundBufBad;
+	sf::Sound mHitSound;
 
 	Text mTextScore;
 	Text mTextPause;
@@ -104,6 +109,10 @@ public:
 		mTextPause.setPosition(ld::gameDim/2.0f, ld::gameDim/2.0f);
 		mTextPause.setOrigin(6 * 5 * 0.5f, 1 * 6 * 0.5f);
 		mTextPause.setScale(0.2f, 0.2f);
+
+		// Load sounds
+		mHitSoundBufGood.loadFromFile(ld::hitSoundGoodPath);
+		mHitSoundBufBad.loadFromFile(ld::hitSoundBadPath);
 
 		// Instantly triggers level -1 -> 0 which fades in a new slot
 		// Projectiles are not fired until after the projectile is

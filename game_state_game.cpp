@@ -165,10 +165,15 @@ void GameStateGame::update(float dt)
 				if(abs(c1.r-c2.r) < 5 && abs(c1.g-c2.g) < 5 && abs(c1.b-c2.b) < 5)
 				{
 					mPlayer.score += 100;
+					mHitSound.setBuffer(mHitSoundBufGood);
+					mHitSound.play();
 				}
 				else
 				{
 					if(mPlayer.lives >= 1) mPlayer.lives -= 1;
+					mHitSound.setBuffer(mHitSoundBufBad);
+					mHitSound.play();
+
 				}
 
 				// Calculate possible particle projection angle to avoid intersection

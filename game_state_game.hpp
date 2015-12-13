@@ -26,6 +26,7 @@ private:
 
 	Text mTextScore;
 	Text mTextPause;
+	Text mTextLives;
 
 	float mDuration;
 
@@ -82,14 +83,21 @@ public:
 		mSubstate(SubState::PLAY),
 		mTextScore("0"),
 		mTextPause("PAUSED"),
+		mTextLives("^"),
 		mDuration(0.0f),
 		mTransitionTimer(0.0),
 		mTransitionLength(2.0f),
 		mCurrentLevel(0)
 	{
 		mPlayer.setPosition(ld::gameDim/2.0f, ld::gameDim/2.0f);
+
 		mTextScore.setPosition(ld::gameDim*5.0f/6.0f, ld::gameDim/15.0f);
 		mTextScore.setScale(0.1f, 0.1f);
+
+		mTextLives.setString(std::string(mPlayer.lives, '^'));
+		mTextLives.setPosition(ld::gameDim*5.0f/6.0f, 0.0f);
+		mTextLives.setScale(0.1f, 0.1f);
+
 		mTextPause.setPosition(ld::gameDim/2.0f, ld::gameDim/2.0f);
 		mTextPause.setOrigin(6 * 5 * 0.5f, 1 * 6 * 0.5f);
 		mTextPause.setScale(0.2f, 0.2f);
@@ -105,6 +113,7 @@ public:
 		// Helps if I draw the damn things...
 		for(auto& projectile : mProjectiles) target.draw(projectile, states);
 		target.draw(mTextScore, states);
+		target.draw(mTextLives, states);
 
 		if(mSubstate == SubState::PAUSE)
 		{

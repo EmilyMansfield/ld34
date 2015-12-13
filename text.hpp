@@ -28,6 +28,12 @@ private:
 			else if(c == ' ') i = 36;
 			else if(c >= 'A' && c <= 'Z') i = c - 'A' + 10;
 			else if(c >= 'a' && c <= 'z') i = c - 'a' + 10;
+			else if(c == '.') i = 37;
+			else if(c == ',') i = 38;
+			else if(c == '!') i = 39;
+			else if(c == '?') i = 40;
+			else if(c == '@') i = 41;
+			else if(c == '^') i = 42;
 			else i = 36;
 
 			// Get pixmap representation

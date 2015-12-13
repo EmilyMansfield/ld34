@@ -163,6 +163,7 @@ void GameStateGame::update(float dt)
 				}
 				else
 				{
+					if(mPlayer.lives >= 1) mPlayer.lives -= 1;
 				}
 			}
 		}
@@ -177,7 +178,11 @@ void GameStateGame::update(float dt)
 		std::string scoreStr = std::to_string(mPlayer.score);
 		mTextScore.setString(scoreStr);
 		mTextScore.setPosition(ld::gameDim - (scoreStr.size()+1) * 5 * 0.1f, ld::gameDim/15.0f);
-		mTextScore.setString(std::to_string(mPlayer.score));
+
+		// Set the lives text
+		std::string livesStr(mPlayer.lives, '^');
+		mTextLives.setString(livesStr);
+		mTextLives.setPosition(ld::gameDim - (livesStr.size()+1) * 5 * 0.1f, 0.0f);
 	}
 }
 

@@ -50,6 +50,7 @@ private:
 public:
 
 	unsigned long score;
+	unsigned long lives;
 
 	// Add a new randomly coloured slot
 	// Slots are 1/3 size of the total rectangle,
@@ -98,7 +99,8 @@ public:
 		mRotateInterp(0.0),
 		mRotating(false),
 		mDir(0),
-		score(0)
+		score(0),
+		lives(2)
 	{
 		// Create main body rectangle
 		mBody.setFillColor(ld::playerCol);

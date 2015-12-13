@@ -33,7 +33,14 @@ private:
 	{
 		// Temporarily use a linear transition
 		// TODO: Make transition cubic/quadratic
-		return mDir * 90.0f + 90.0f * mRotateInterp * mRotating;
+		// Want interpolating polynomial of smallest degree with
+		// f(0) = 0; f'(0) = 0; f(1) = 1; f'(1) = 0
+		// which solving gives
+		// f(x) = x^2(x-2)^2
+		float& x = mRotateInterp;
+		return 90.0f*fma(mRotating, x*x*(x-2)*(x-2), mDir);
+		// return 90.0f * mDir + 90.0f * x*x*(x-2)*(x-2) * mRotating;
+		// return mDir * 90.0f + 90.0f * mRotateInterp * mRotating;
 	}
 
 	int mRotating;

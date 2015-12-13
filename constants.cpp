@@ -48,4 +48,4 @@ bool ld::musicOn = false;
 const int ld::leaderboardKey[] = LEADERBOARD_KEY;
 const int ld::leaderboardKeyLength = LEADERBOARD_KEY_LENGTH;
 const std::string ld::leaderboardAuthentication = LEADERBOARD_AUTHENTICATION;
-const std::string ld::leaderboardUrl = "stark-oasis-3750.herokuapp.com/";
+const std::string ld::leaderboardUrl = "http://stark-oasis-3750.herokuapp.com/";

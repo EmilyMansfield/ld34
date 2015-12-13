@@ -6,7 +6,6 @@
 #include <SFML/Network.hpp>
 #include <cmath>
 #include <vector>
-#include <iostream>
 #include <string>
 
 #include "game_state.hpp"
@@ -76,21 +75,11 @@ private:
 
 		// POST was too hard to figure out, so submitting scores uses GET
 		// Take that, standards
-		std::string requestStr(ld::leaderboardUrl + "/submit?input=" + createSubmission(name, score));
-		std::cout << "Request string is " << requestStr;
+		std::string requestStr("/submit?input=" + createSubmission(name, score));
 		sf::Http::Request request(requestStr);
 		sf::Http http(ld::leaderboardUrl);
 		sf::Http::Response response = http.sendRequest(request);
-		if(response.getStatus() != sf::Http::Response::Ok)
-		{
-			std::cout << "Failed: " << response.getStatus() << std::endl;
-			return false;
-		}
-		else
-		{
-			std::cout << "Success: " << response.getBody() << std::endl;
-			return true;
-		}
+
 		return response.getStatus() == sf::Http::Response::Ok;
 	}
 

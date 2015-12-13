@@ -41,6 +41,28 @@ void GameStateSettings::handleEvent(const sf::Event& event)
 			}
 		}
 	}
+	if(event.type == sf::Event::TextEntered)
+	{
+		if(event.text.unicode <= 127)
+		{
+			char c = static_cast<char>(event.text.unicode);
+			// Keep only uppercase alphanumeric chars, and convert
+			// lowercase to uppercase
+			if(c >= 'a' && c <= 'z') c -= 0x20;
+			if(((c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9')) &&
+				ld::playerName.size() < 12)
+			{
+				ld::playerName.push_back(c);
+				mNameStr.push_back(c);
+			}
+			else if((c == 127 || c == '\b') && ld::playerName.size() > 0)
+			{
+				ld::playerName.pop_back();
+				mNameStr.pop_back();
+			}
+			mTextName.setString(mNameStr);
+		}
+	}
 }
 
 void GameStateSettings::handleInput(float dt)

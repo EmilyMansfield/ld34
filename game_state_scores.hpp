@@ -57,7 +57,7 @@ private:
 		// Add some 'encryption'. Please don't take this as a challenge or anything
 		std::string packet = ld::leaderboardAuthentication +
 			"n: " + name + "; " + "s: " + std::to_string(score);
-		if(ld::leaderboardKeyLength < 0) return "";
+		if(ld::leaderboardKeyLength <= 0) return "";
 
 		std::string msg = "[";
 		for(size_t i = 0; i < packet.size(); ++i)
@@ -68,6 +68,30 @@ private:
 		msg += "]";
 
 		return msg;
+	}
+
+	bool submitScore(const std::string& name, unsigned long score)
+	{
+		if(ld::leaderboardKeyLength <= 0) return false;
+
+		// POST was too hard to figure out, so submitting scores uses GET
+		// Take that, standards
+		std::string requestStr(ld::leaderboardUrl + "/submit?input=" + createSubmission(name, score));
+		std::cout << "Request string is " << requestStr;
+		sf::Http::Request request(requestStr);
+		sf::Http http(ld::leaderboardUrl);
+		sf::Http::Response response = http.sendRequest(request);
+		if(response.getStatus() != sf::Http::Response::Ok)
+		{
+			std::cout << "Failed: " << response.getStatus() << std::endl;
+			return false;
+		}
+		else
+		{
+			std::cout << "Success: " << response.getBody() << std::endl;
+			return true;
+		}
+		return response.getStatus() == sf::Http::Response::Ok;
 	}
 
 public:
@@ -99,7 +123,7 @@ public:
 			ld::saturation,
 			ld::value));
 
-		std::cout << createSubmission("Dan", 1500) << std::endl;
+		submitScore("User", mScore);
 	}
 
 	virtual void handleEvent(const sf::Event& event);

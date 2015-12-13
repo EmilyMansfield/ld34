@@ -33,6 +33,7 @@ extern bool musicOn;
 extern const int leaderboardKey[];
 extern const int leaderboardKeyLength;
 extern const std::string leaderboardAuthentication;
+extern const std::string leaderboardUrl;
 }
 
 #endif /* CONSTANTS_HPP */

@@ -1,0 +1,8 @@
+Score list
+<ol>
+	<% @models.each do |model| %>
+		<li>
+			<%= model.name %>, <%= model.score %>
+		</li>
+	<% end %>
+</ol>

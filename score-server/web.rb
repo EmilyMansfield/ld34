@@ -56,13 +56,15 @@ get '/byscore' do
   name = params[:name]
   # Get the highest matching score
   central = Model.where("name = ? AND score = ?", name, score).first
+  index = Model.all.sort{|a,b| b.score <=> a.score}.index(central)
+
   # Find the last 5 entries above the central entry and the first 4 below it
   # to get the surrounding entries
   models = Model.where("score >= ? AND id != ?", score, central.id).order("score DESC").last(5)
   models += Model.where("score <= ? AND id != ?", score, central.id).order("score DESC").first(4)
   models += [central]
-  scores = models.sort{|a,b| b.score <=> a.score}.uniq.inject(""){|s,x| s << x.name + ", " + x.score.to_s + ", "}
-  "{#{scores[0...-2]}}"
+  scores = models.sort{|a,b| b.score <=> a.score}.uniq.each.with_index.inject(""){|s,(x,i)| s << x.name + ", " + x.score.to_s + ", "}
+  "#{index} {#{scores[0...-2]}}"
 end
 
 get '/scores' do

@@ -24,9 +24,13 @@ private:
 
 	Text mTextTitle;
 	Text mTextRestart;
+	Text mTextBoardSetter;
 	Text mTextQuit;
 
-	std::vector<std::tuple<std::string, unsigned long, Text>> mScores;
+	std::string mTextBoardSetterStr;
+	bool mShowingTopScores;
+	std::vector<std::tuple<std::string, unsigned long, Text>> mTopScores;
+	std::vector<std::tuple<std::string, unsigned long, Text>> mRelativeScores;
 
 	int mSelectedOption;
 
@@ -49,10 +53,12 @@ private:
 	{
 		Text* selectedText = nullptr;
 		if(mSelectedOption == 0) selectedText = &mTextRestart;
-		else if(mSelectedOption == 1) selectedText = &mTextQuit;
+		else if(mSelectedOption == 1) selectedText = &mTextBoardSetter;
+		else if(mSelectedOption == 2) selectedText = &mTextQuit;
 		if(selectedText != nullptr)
 		{
 			deselect(&mTextRestart);
+			deselect(&mTextBoardSetter);
 			deselect(&mTextQuit);
 			select(selectedText);
 		}
@@ -90,11 +96,20 @@ private:
 		return response.getStatus() == sf::Http::Response::Ok;
 	}
 
-	bool getScores()
+	bool getScores(bool topScores)
 	{
-		sf::Http::Request request("/retrieve");
+		sf::Http::Response response;
 		sf::Http http(ld::leaderboardUrl);
-		sf::Http::Response response = http.sendRequest(request);
+		if(topScores)
+		{
+			sf::Http::Request request("/retrieve");
+			response = http.sendRequest(request);
+		}
+		else
+		{
+			sf::Http::Request request("/byscore?score=" + std::to_string(mScore) + "&name=" + ld::playerName);
+			response = http.sendRequest(request);
+		}
 
 		if(response.getStatus() == sf::Http::Response::Ok)
 		{
@@ -105,6 +120,19 @@ private:
 				std::istream_iterator<std::string>(iss),
 				std::istream_iterator<std::string>()};
 
+			// Relative scores have placement of given score first
+			unsigned int place = 0;
+			if(!topScores)
+			{
+				place = std::stoi(v[0]);
+				v.erase(v.begin());
+				// If there aren't 20 elements there aren't 10 total places
+				if(v.size() < 20)
+				{
+					// So the first element in the list is the first actual element
+					place = 0;
+				}
+			}
 			bool hasSelectedPlayer = false;
 			for(int i = 0; i < v.size(); i += 2)
 			{
@@ -127,7 +155,7 @@ private:
 				if(textStr.size() < 12) textStr.append(12-tName.size(), ' ');
 
 				// Format text
-				textStr = std::to_string(i/2 + 1) + ". " + textStr + " " + std::to_string(tScore);
+				textStr = std::to_string(i/2 + 1 + place) + ". " + textStr + " " + std::to_string(tScore);
 				tText.setString(textStr);
 				tText.setColor(sf::Color::White);
 				if(tName == ld::playerName && tScore == mScore && !hasSelectedPlayer)
@@ -141,7 +169,10 @@ private:
 				tText.setOrigin(textStr.size() * 5 * 0.5f, 1 * 6 * 0.5f);
 				tText.setPosition(ld::gameDim/2.0f, ld::gameDim*(0.8f+i*0.14f)/5.0f);
 				tText.setScale(0.08f, 0.08f);
-				mScores.push_back(score);
+				if(topScores)
+					mTopScores.push_back(score);
+				else
+					mRelativeScores.push_back(score);
 			}
 
 			return true;
@@ -158,7 +189,10 @@ public:
 		GameState(state, prevState),
 		mTextTitle("Leaderboard"),
 		mTextRestart("Restart"),
+		mTextBoardSetter("Showing Yours"),
 		mTextQuit("Quit"),
+		mTextBoardSetterStr("Showing Yours"),
+		mShowingTopScores(false),
 		mSelectedOption(0),
 		mScore(score)
 	{
@@ -170,6 +204,10 @@ public:
 		mTextRestart.setOrigin(7 * 5 * 0.5f, 1 * 6 * 0.5f);
 		mTextRestart.setScale(0.1f, 0.1f);
 
+		mTextBoardSetter.setPosition(ld::gameDim/2.0f, ld::gameDim*4.25f/5.0f);
+		mTextBoardSetter.setOrigin(mTextBoardSetterStr.size() * 5 * 0.5f, 1 * 6 * 0.5f);
+		mTextBoardSetter.setScale(0.1f, 0.1f);
+
 		mTextQuit.setPosition(ld::gameDim/2.0f, ld::gameDim*4.5f/5.0f);
 		mTextQuit.setOrigin(4 * 5 * 0.5f, 1 * 6 * 0.5f);
 		mTextQuit.setScale(0.1f, 0.1f);
@@ -180,7 +218,9 @@ public:
 			ld::value));
 
 		submitScore(ld::playerName, mScore);
-		getScores();
+		// Preload both sets of scores
+		getScores(true);
+		getScores(false);
 	}
 
 	virtual void handleEvent(const sf::Event& event);
@@ -191,10 +231,21 @@ public:
 	{
 		target.draw(mTextTitle, states);
 		target.draw(mTextRestart, states);
+		target.draw(mTextBoardSetter, states);
 		target.draw(mTextQuit, states);
-		for(auto score : mScores)
+		if(mShowingTopScores)
 		{
-			target.draw(std::get<2>(score), states);
+			for(auto score : mTopScores)
+			{
+				target.draw(std::get<2>(score), states);
+			}
+		}
+		else
+		{
+			for(auto score : mRelativeScores)
+			{
+				target.draw(std::get<2>(score), states);
+			}
 		}
 	}
 };

@@ -105,6 +105,7 @@ private:
 				std::istream_iterator<std::string>(iss),
 				std::istream_iterator<std::string>()};
 
+			bool hasSelectedPlayer = false;
 			for(int i = 0; i < v.size(); i += 2)
 			{
 				std::tuple<std::string, unsigned long, Text> score;
@@ -129,6 +130,14 @@ private:
 				textStr = std::to_string(i/2 + 1) + ". " + textStr + " " + std::to_string(tScore);
 				tText.setString(textStr);
 				tText.setColor(sf::Color::White);
+				if(tName == ld::playerName && tScore == mScore && !hasSelectedPlayer)
+				{
+					tText.setColor(ld::hsvToRgb(
+						ld::rand(0.0f, 360.0f),
+						ld::saturation,
+						ld::value));
+					hasSelectedPlayer = true;
+				}
 				tText.setOrigin(textStr.size() * 5 * 0.5f, 1 * 6 * 0.5f);
 				tText.setPosition(ld::gameDim/2.0f, ld::gameDim*(0.8f+i*0.14f)/5.0f);
 				tText.setScale(0.08f, 0.08f);

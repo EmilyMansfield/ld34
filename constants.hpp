@@ -35,6 +35,10 @@ extern const int leaderboardKeyLength;
 extern const std::string leaderboardAuthentication;
 extern const std::string leaderboardUrl;
 extern std::string playerName;
+
+#ifdef __ANDROID__
+	extern sf::RenderTarget* renderTarget;
+#endif
 }
 
 #endif /* CONSTANTS_HPP */

@@ -13,6 +13,12 @@ private:
 	std::string mStr;
 	std::vector<sf::RectangleShape> mRects;
 	sf::Color mCol;
+	#ifdef __ANDROID__
+		sf::RectangleShape mRect;
+		sf::FloatRect mBounds;
+	#endif /* __ANDROID__ */
+
+public:
 
 	void update()
 	{
@@ -55,7 +61,7 @@ private:
 				{
 					// Bits are reversed, so place a rectangle here
 					sf::RectangleShape r(sf::Vector2f(1.0f, 1.0f));
-					r.setPosition(ci * 5 + x, 6 + y);
+					r.setPosition(ci * 5 + x, y);
 					r.setFillColor(mCol);
 					r.setOutlineThickness(0.0f);
 					mRects.push_back(r);
@@ -63,9 +69,18 @@ private:
 				x += 1;
 			}
 		}
+
+		#ifdef __ANDROID__
+			mRect = sf::RectangleShape(sf::Vector2f(5 * mStr.size(), 6));
+			mRect.setOrigin(getOrigin());
+			mRect.setPosition(getPosition());
+			mRect.setScale(getScale());
+			mRect.setRotation(getRotation());
+			mRect.setFillColor(ld::hsvToRgb(ld::rand(0, 360), ld::saturation, ld::value));
+			mBounds = mRect.getGlobalBounds();
+		#endif /* __ANDROID__ */
 	}
 
-public:
 
 	Text() {} // For a tuple when reading scores
 	Text(const std::string& str, const sf::Color& col = sf::Color::White) :
@@ -100,6 +115,13 @@ public:
 		mCol.a = 255 * a;
 		setColor(mCol);
 	}
+
+	#ifdef __ANDROID__
+		sf::FloatRect& getBounds()
+		{
+			return mBounds;
+		}
+	#endif /* __ANDROID__ */
 };
 
 #endif /* TEXT_HPP */

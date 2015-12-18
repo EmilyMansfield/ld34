@@ -35,6 +35,10 @@ int main()
 	view.setCenter(ld::gameDim/2.0f, ld::gameDim/2.0f);
 	window.setView(view);
 
+	#ifdef __ANDROID__
+		ld::renderTarget = &window;
+	#endif /* __ANDROID__ */
+
 	#ifndef __ANDROID__
 		// Start the music
 		sf::Music music;

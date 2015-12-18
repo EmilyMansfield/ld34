@@ -9,6 +9,28 @@
 #include "util.hpp"
 #include "constants.hpp"
 
+#ifdef __ANDROID__
+void GameStateTitle::handleEvent(const sf::Event& event)
+{
+	if(event.type == sf::Event::TouchBegan)
+	{
+		// Get touched position and check which menu option contains
+		// that point
+		sf::Vector2i p(event.touch.x, event.touch.y);
+		sf::Vector2f touchPos(ld::renderTarget->mapPixelToCoords(p));
+		if(mTextPlay.getBounds().contains(touchPos))
+		{
+			std::shared_ptr<GameState> thisState = mState;
+			mState.reset(new GameStateGame(mState, thisState));
+		}
+		else if(mTextSettings.getBounds().contains(touchPos))
+		{
+			std::shared_ptr<GameState> thisState = mState;
+			mState.reset(new GameStateSettings(mState, thisState));
+		}
+	}
+}
+#else
 void GameStateTitle::handleEvent(const sf::Event& event)
 {
 	if(event.type == sf::Event::KeyPressed)
@@ -33,6 +55,7 @@ void GameStateTitle::handleEvent(const sf::Event& event)
 		}
 	}
 }
+#endif /* __ANDROID__ */
 
 void GameStateTitle::handleInput(float dt)
 {

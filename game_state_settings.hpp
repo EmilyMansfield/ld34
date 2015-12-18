@@ -69,7 +69,7 @@ public:
 		mSelectedOption(0),
 		mNameStr("Name " + ld::playerName)
 	{
-		mTextTitle.setPosition(ld::gameDim/2.0f, 0.0f);
+		mTextTitle.setPosition(ld::gameDim/2.0f, ld::gameDim*0.5f/5.0f);
 		mTextTitle.setOrigin(8 * 5 * 0.5f, 1 * 6 * 0.5f);
 		mTextTitle.setScale(0.2f, 0.2f);
 
@@ -116,6 +116,17 @@ public:
 		mTextAuthor2.setScale(0.1f, 0.1f);
 
 		selectOption();
+
+		#ifdef __ANDROID__
+			mTextTitle.update();
+			mTextMusic.update();
+			mTextName.update();
+			mTextBack.update();
+			mTextAbout.update();
+			mTextAbout2.update();
+			mTextAuthor.update();
+			mTextAuthor2.update();
+		#endif /* __ANDROID__ */
 	}
 
 	virtual void handleEvent(const sf::Event& event);

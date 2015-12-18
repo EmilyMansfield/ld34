@@ -17,30 +17,37 @@ int main()
 	srand(time(nullptr));
 
 	// Non-resizeable window
-	sf::RenderWindow window(sf::VideoMode(ld::width, ld::height), 
-		ld::title, sf::Style::Titlebar | sf::Style::Close);
+	#ifdef __ANDROID__
+		sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "");
+	#else
+		sf::RenderWindow window(sf::VideoMode(ld::width, ld::height), 
+			ld::title, sf::Style::Titlebar | sf::Style::Close);
 
-	// Disable key repeating
-	window.setKeyRepeatEnabled(false);
+		// Disable key repeating
+		window.setKeyRepeatEnabled(false);
 
-	// Clamp framerate
-	window.setVerticalSyncEnabled(true);
+		// Clamp framerate
+		window.setVerticalSyncEnabled(true);
+	#endif /* __ANDROID__ */
 
 	// Window viewport
 	sf::View view(sf::FloatRect(0, 0, ld::gameDim, ld::gameDim));
 	view.setCenter(ld::gameDim/2.0f, ld::gameDim/2.0f);
 	window.setView(view);
 
-	// Start the music
-	sf::Music music;
-	if(music.openFromFile(ld::musicPath))
-	{
-		ld::musicAvailable = true;
-		ld::musicOn = true;
-		music.setLoop(true);
-		music.setVolume(40.0f);
-		music.play();
-	}
+	#ifndef __ANDROID__
+		// Start the music
+		sf::Music music;
+		if(music.openFromFile(ld::musicPath))
+		{
+			ld::musicAvailable = true;
+			ld::musicOn = true;
+			music.setLoop(true);
+			music.setVolume(40.0f);
+			music.play();
+		}
+	#endif /* !__ANDROID__ */
+
 	// Pointer to current game state
 	std::shared_ptr<GameState> state;
 
@@ -55,17 +62,19 @@ int main()
 	{
 		float dt = clock.restart().asSeconds();
 
-		// Check music
-		if(ld::musicAvailable && !ld::musicOn && music.getStatus() == sf::SoundSource::Playing)
-		{
-			ld::musicOn = false;
-			music.stop();
-		}
-		else if(ld::musicAvailable && ld::musicOn && music.getStatus() == sf::SoundSource::Stopped)
-		{
-			ld::musicOn = true;
-			music.play();
-		}
+		#ifndef __ANDROID__
+			// Check music
+			if(ld::musicAvailable && !ld::musicOn && music.getStatus() == sf::SoundSource::Playing)
+			{
+				ld::musicOn = false;
+				music.stop();
+			}
+			else if(ld::musicAvailable && ld::musicOn && music.getStatus() == sf::SoundSource::Stopped)
+			{
+				ld::musicOn = true;
+				music.play();
+			}
+		#endif /* !__ANDROID__ */
 
 		// Handle events
 		sf::Event event;

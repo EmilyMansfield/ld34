@@ -8,6 +8,42 @@
 #include "util.hpp"
 #include "constants.hpp"
 
+#ifdef __ANDROID__
+void GameStateScores::handleEvent(const sf::Event& event)
+{
+	if(event.type == sf::Event::TouchBegan)
+	{
+		sf::Vector2i p(event.touch.x, event.touch.y);
+		sf::Vector2f touchPos(ld::renderTarget->mapPixelToCoords(p));
+		if(mTextRestart.getBounds().contains(touchPos))
+		{
+			std::shared_ptr<GameState> thisState = mState;
+			mState.reset(new GameStateGame(mState, thisState));
+		}
+		else if(mTextBoardSetter.getBounds().contains(touchPos))
+		{
+			if(mShowingTopScores)
+			{
+				mShowingTopScores = false;
+				mTextBoardSetterStr = "Showing Top";
+				mTextBoardSetter.setString(mTextBoardSetterStr);
+				mTextBoardSetter.setOrigin(mTextBoardSetterStr.size() * 5 * 0.5f, 1 * 6 * 0.5f);
+			}
+			else
+			{
+				mShowingTopScores = true;
+				mTextBoardSetterStr = "Showing Yours";
+				mTextBoardSetter.setString(mTextBoardSetterStr);
+				mTextBoardSetter.setOrigin(mTextBoardSetterStr.size() * 5 * 0.5f, 1 * 6 * 0.5f);
+			}
+		}
+		else if(mTextQuit.getBounds().contains(touchPos))
+		{
+			mState.reset();
+		}
+	}
+}
+#else
 void GameStateScores::handleEvent(const sf::Event& event)
 {
 	if(event.type == sf::Event::KeyPressed)
@@ -29,14 +65,14 @@ void GameStateScores::handleEvent(const sf::Event& event)
 				if(mShowingTopScores)
 				{
 					mShowingTopScores = false;
-					mTextBoardSetterStr = "Showing Top";
+					mTextBoardSetterStr = "Showing Yours";
 					mTextBoardSetter.setString(mTextBoardSetterStr);
 					mTextBoardSetter.setOrigin(mTextBoardSetterStr.size() * 5 * 0.5f, 1 * 6 * 0.5f);
 				}
 				else
 				{
 					mShowingTopScores = true;
-					mTextBoardSetterStr = "Showing Yours";
+					mTextBoardSetterStr = "Showing Top";
 					mTextBoardSetter.setString(mTextBoardSetterStr);
 					mTextBoardSetter.setOrigin(mTextBoardSetterStr.size() * 5 * 0.5f, 1 * 6 * 0.5f);
 				}
@@ -49,6 +85,7 @@ void GameStateScores::handleEvent(const sf::Event& event)
 		}
 	}
 }
+#endif /* __ANDROID__ */
 
 void GameStateScores::handleInput(float dt)
 {

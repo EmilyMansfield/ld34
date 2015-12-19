@@ -8,6 +8,24 @@
 #include "util.hpp"
 #include "constants.hpp"
 
+#ifdef __ANDROID__
+void GameStateGame::handleEvent(const sf::Event& event)
+{
+	if(event.type == sf::Event::TouchBegan)
+	{
+		sf::Vector2i p(event.touch.x, event.touch.y);
+		sf::Vector2f touchPos(ld::renderTarget->mapPixelToCoords(p));
+		if(mTouchBoundsLeft.contains(touchPos))
+		{
+			mPlayer.rotate(-1);
+		}
+		else if(mTouchBoundsRight.contains(touchPos))
+		{
+			mPlayer.rotate(1);
+		}
+	}
+}
+#else
 void GameStateGame::handleEvent(const sf::Event& event)
 {
 	if(event.type == sf::Event::KeyPressed)
@@ -38,6 +56,7 @@ void GameStateGame::handleEvent(const sf::Event& event)
 		}
 	}
 }
+#endif /* __ANDROID__ */
 
 void GameStateGame::handleInput(float dt)
 {

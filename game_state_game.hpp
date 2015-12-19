@@ -35,6 +35,11 @@ private:
 		sf::SoundBuffer mDeadSoundBuf;
 		sf::Sound mHitSound;
 		sf::Sound mDeadSound;
+	#endif /* !__ANDROID__ */
+
+	#ifdef __ANDROID__
+		sf::FloatRect mTouchBoundsLeft;
+		sf::FloatRect mTouchBoundsRight;
 	#endif /* __ANDROID__ */
 
 	Text mTextScore;
@@ -97,6 +102,8 @@ public:
 		mT2(0.0f),
 		mTrailEmissionInterval(0.1f),
 		mSubstate(SubState::TRANSITIONING),
+		mTouchBoundsLeft(0, ld::gameDim*4.0f/5.0f, ld::gameDim*0.5f, ld::gameDim*1.0f/5.0f),
+		mTouchBoundsRight(ld::gameDim*0.5f, ld::gameDim*4.0f/5.0f, ld::gameDim*0.5f, ld::gameDim*1.0f/5.0f),
 		mTextScore("0"),
 		mTextPause("PAUSED"),
 		mTextLives("^"),

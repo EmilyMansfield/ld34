@@ -25,14 +25,14 @@ void GameStateScores::handleEvent(const sf::Event& event)
 			if(mShowingTopScores)
 			{
 				mShowingTopScores = false;
-				mTextBoardSetterStr = "Showing Top";
+				mTextBoardSetterStr = "Showing Yours";
 				mTextBoardSetter.setString(mTextBoardSetterStr);
 				mTextBoardSetter.setOrigin(mTextBoardSetterStr.size() * 5 * 0.5f, 1 * 6 * 0.5f);
 			}
 			else
 			{
 				mShowingTopScores = true;
-				mTextBoardSetterStr = "Showing Yours";
+				mTextBoardSetterStr = "Showing Top";
 				mTextBoardSetter.setString(mTextBoardSetterStr);
 				mTextBoardSetter.setOrigin(mTextBoardSetterStr.size() * 5 * 0.5f, 1 * 6 * 0.5f);
 			}

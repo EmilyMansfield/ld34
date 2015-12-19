@@ -102,8 +102,10 @@ public:
 		mT2(0.0f),
 		mTrailEmissionInterval(0.1f),
 		mSubstate(SubState::TRANSITIONING),
-		mTouchBoundsLeft(0, ld::gameDim*4.0f/5.0f, ld::gameDim*0.5f, ld::gameDim*1.0f/5.0f),
-		mTouchBoundsRight(ld::gameDim*0.5f, ld::gameDim*4.0f/5.0f, ld::gameDim*0.5f, ld::gameDim*1.0f/5.0f),
+		#ifdef __ANDROID__
+			mTouchBoundsLeft(0, ld::gameDim*4.0f/5.0f, ld::gameDim*0.5f, ld::gameDim*1.0f/5.0f),
+			mTouchBoundsRight(ld::gameDim*0.5f, ld::gameDim*4.0f/5.0f, ld::gameDim*0.5f, ld::gameDim*1.0f/5.0f),
+		#endif /* __ANDROID__ */
 		mTextScore("0"),
 		mTextPause("PAUSED"),
 		mTextLives("^"),
@@ -114,11 +116,11 @@ public:
 	{
 		mPlayer.setPosition(ld::gameDim/2.0f, ld::gameDim/2.0f);
 
-		mTextScore.setPosition(ld::gameDim*5.0f/6.0f, ld::gameDim/10.0f);
+		mTextScore.setPosition(ld::gameDim*5.0f/6.0f, ld::gameDim*1.0f/5.0f);
 		mTextScore.setScale(0.1f, 0.1f);
 
 		mTextLives.setString(std::string(mPlayer.lives, '^'));
-		mTextLives.setPosition(ld::gameDim*5.0f/6.0f, ld::gameDim/15.0f);
+		mTextLives.setPosition(ld::gameDim*5.0f/6.0f, ld::gameDim*0.5f/5.0f);
 		mTextLives.setScale(0.1f, 0.1f);
 
 		mTextPause.setPosition(ld::gameDim/2.0f, ld::gameDim/2.0f);

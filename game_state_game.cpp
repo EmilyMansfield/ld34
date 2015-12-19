@@ -308,12 +308,12 @@ void GameStateGame::update(float dt)
 		// Set the score text
 		std::string scoreStr = std::to_string(mPlayer.score);
 		mTextScore.setString(scoreStr);
-		mTextScore.setPosition(ld::gameDim - (scoreStr.size()+1) * 5 * 0.1f, ld::gameDim/15.0f);
+		mTextScore.setPosition(ld::gameDim - (scoreStr.size()+1) * 5 * 0.1f, ld::gameDim*0.75f/5.0f);
 
 		// Set the lives text
 		std::string livesStr(mPlayer.lives, '^');
 		mTextLives.setString(livesStr);
-		mTextLives.setPosition(ld::gameDim - (livesStr.size()+1) * 5 * 0.1f, 0.0f);
+		mTextLives.setPosition(ld::gameDim - (livesStr.size()+1) * 5 * 0.1f, ld::gameDim*0.5f/5.0f);
 	}
 }
 

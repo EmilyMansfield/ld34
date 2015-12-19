@@ -114,11 +114,11 @@ public:
 	{
 		mPlayer.setPosition(ld::gameDim/2.0f, ld::gameDim/2.0f);
 
-		mTextScore.setPosition(ld::gameDim*5.0f/6.0f, ld::gameDim/15.0f);
+		mTextScore.setPosition(ld::gameDim*5.0f/6.0f, ld::gameDim/10.0f);
 		mTextScore.setScale(0.1f, 0.1f);
 
 		mTextLives.setString(std::string(mPlayer.lives, '^'));
-		mTextLives.setPosition(ld::gameDim*5.0f/6.0f, 0.0f);
+		mTextLives.setPosition(ld::gameDim*5.0f/6.0f, ld::gameDim/15.0f);
 		mTextLives.setScale(0.1f, 0.1f);
 
 		mTextPause.setPosition(ld::gameDim/2.0f, ld::gameDim/2.0f);

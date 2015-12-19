@@ -200,8 +200,10 @@ void GameStateGame::update(float dt)
 				if(abs(c1.r-c2.r) < 5 && abs(c1.g-c2.g) < 5 && abs(c1.b-c2.b) < 5)
 				{
 					mPlayer.score += 100;
-					mHitSound.setBuffer(mHitSoundBufGood);
-					mHitSound.play();
+					#ifndef __ANDROID__
+						mHitSound.setBuffer(mHitSoundBufGood);
+						mHitSound.play();
+					#endif /* __ANDROID__ */
 				}
 				else
 				{
@@ -209,8 +211,10 @@ void GameStateGame::update(float dt)
 					if(mPlayer.lives <= 0)
 					{
 						// Kill the player
-						mDeadSound.setBuffer(mDeadSoundBuf);
-						mDeadSound.play();
+						#ifndef __ANDROID__
+							mDeadSound.setBuffer(mDeadSoundBuf);
+							mDeadSound.play();
+						#endif /* __ANDROID__ */
 						mSubstate = SubState::DYING;
 						mTransitionTimer = 0.0f;
 						mParticles.spawn(9-mPlayer.numSlots(),
@@ -235,8 +239,10 @@ void GameStateGame::update(float dt)
 					}
 					else
 					{
-						mHitSound.setBuffer(mHitSoundBufBad);
-						mHitSound.play();
+						#ifndef __ANDROID__
+							mHitSound.setBuffer(mHitSoundBufBad);
+							mHitSound.play();
+						#endif /* __ANDROID__ */
 					}
 
 				}

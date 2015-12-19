@@ -29,11 +29,13 @@ private:
 	SubState mSubstate;
 	// SubState mPrevSubstate; // Used for resuming
 
-	sf::SoundBuffer mHitSoundBufGood;
-	sf::SoundBuffer mHitSoundBufBad;
-	sf::SoundBuffer mDeadSoundBuf;
-	sf::Sound mHitSound;
-	sf::Sound mDeadSound;
+	#ifndef __ANDROID__
+		sf::SoundBuffer mHitSoundBufGood;
+		sf::SoundBuffer mHitSoundBufBad;
+		sf::SoundBuffer mDeadSoundBuf;
+		sf::Sound mHitSound;
+		sf::Sound mDeadSound;
+	#endif /* __ANDROID__ */
 
 	Text mTextScore;
 	Text mTextPause;
@@ -116,10 +118,12 @@ public:
 		mTextPause.setOrigin(6 * 5 * 0.5f, 1 * 6 * 0.5f);
 		mTextPause.setScale(0.2f, 0.2f);
 
-		// Load sounds
-		mHitSoundBufGood.loadFromFile(ld::hitSoundGoodPath);
-		mHitSoundBufBad.loadFromFile(ld::hitSoundBadPath);
-		mDeadSoundBuf.loadFromFile(ld::deadSoundPath);
+		#ifndef __ANDROID__
+			// Load sounds
+			mHitSoundBufGood.loadFromFile(ld::hitSoundGoodPath);
+			mHitSoundBufBad.loadFromFile(ld::hitSoundBadPath);
+			mDeadSoundBuf.loadFromFile(ld::deadSoundPath);
+		#endif /* __ANDROID__ */
 
 		// Instantly triggers level -1 -> 0 which fades in a new slot
 		// Projectiles are not fired until after the projectile is

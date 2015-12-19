@@ -196,7 +196,7 @@ public:
 		mSelectedOption(0),
 		mScore(score)
 	{
-		mTextTitle.setPosition(ld::gameDim/2.0f, 0.0f);
+		mTextTitle.setPosition(ld::gameDim/2.0f, ld::gameDim*0.5f/5.0f);
 		mTextTitle.setOrigin(11 * 5 * 0.5f, 1 * 6 * 0.5f);
 		mTextTitle.setScale(0.2f, 0.2f);
 
@@ -204,11 +204,11 @@ public:
 		mTextRestart.setOrigin(7 * 5 * 0.5f, 1 * 6 * 0.5f);
 		mTextRestart.setScale(0.1f, 0.1f);
 
-		mTextBoardSetter.setPosition(ld::gameDim/2.0f, ld::gameDim*4.25f/5.0f);
+		mTextBoardSetter.setPosition(ld::gameDim/2.0f, ld::gameDim*4.4f/5.0f);
 		mTextBoardSetter.setOrigin(mTextBoardSetterStr.size() * 5 * 0.5f, 1 * 6 * 0.5f);
 		mTextBoardSetter.setScale(0.1f, 0.1f);
 
-		mTextQuit.setPosition(ld::gameDim/2.0f, ld::gameDim*4.5f/5.0f);
+		mTextQuit.setPosition(ld::gameDim/2.0f, ld::gameDim*4.8f/5.0f);
 		mTextQuit.setOrigin(4 * 5 * 0.5f, 1 * 6 * 0.5f);
 		mTextQuit.setScale(0.1f, 0.1f);
 
@@ -216,6 +216,13 @@ public:
 			ld::rand(0.0f, 360.0f),
 			ld::saturation,
 			ld::value));
+
+		#ifdef __ANDROID__
+			mTextTitle.update();
+			mTextRestart.update();
+			mTextBoardSetter.update();
+			mTextQuit.update();
+		#endif /* __ANDROID__ */
 
 		submitScore(ld::playerName, mScore);
 		// Preload both sets of scores

@@ -40,6 +40,8 @@ private:
 	#ifdef __ANDROID__
 		sf::FloatRect mTouchBoundsLeft;
 		sf::FloatRect mTouchBoundsRight;
+		Text mTextCCWArrow;
+		Text mTextCWArrow;
 	#endif /* __ANDROID__ */
 
 	Text mTextScore;
@@ -105,6 +107,8 @@ public:
 		#ifdef __ANDROID__
 			mTouchBoundsLeft(0, ld::gameDim*4.0f/5.0f, ld::gameDim*0.5f, ld::gameDim*1.0f/5.0f),
 			mTouchBoundsRight(ld::gameDim*0.5f, ld::gameDim*4.0f/5.0f, ld::gameDim*0.5f, ld::gameDim*1.0f/5.0f),
+			mTextCCWArrow("<"),
+			mTextCWArrow(">"),
 		#endif /* __ANDROID__ */
 		mTextScore("0"),
 		mTextPause("PAUSED"),
@@ -132,7 +136,16 @@ public:
 			mHitSoundBufGood.loadFromFile(ld::hitSoundGoodPath);
 			mHitSoundBufBad.loadFromFile(ld::hitSoundBadPath);
 			mDeadSoundBuf.loadFromFile(ld::deadSoundPath);
-		#endif /* __ANDROID__ */
+		#else
+			// Set left and right button hints
+			mTextCCWArrow.setPosition(ld::gameDim*0.25f, ld::gameDim*4.5f/5.0f);
+			mTextCCWArrow.setOrigin(1 * 5 * 0.5f, 1 * 6 * 0.5f);
+			mTextCCWArrow.setScale(0.25f, 0.25f);
+
+			mTextCWArrow.setPosition(ld::gameDim*0.75f, ld::gameDim*4.5f/5.0f);
+			mTextCWArrow.setOrigin(1 * 5 * 0.5f, 1 * 6 * 0.5f);
+			mTextCWArrow.setScale(0.25f, 0.25f);
+		#endif /* !__ANDROID__ */
 
 		// Instantly triggers level -1 -> 0 which fades in a new slot
 		// Projectiles are not fired until after the projectile is
@@ -162,6 +175,11 @@ public:
 
 		target.draw(mTextScore, states);
 		target.draw(mTextLives, states);
+
+		#ifdef __ANDROID__
+			target.draw(mTextCCWArrow, states);
+			target.draw(mTextCWArrow, states);
+		#endif /* __ANDROID__ */
 
 		if(mSubstate == SubState::PAUSE)
 		{

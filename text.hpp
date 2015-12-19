@@ -43,6 +43,8 @@ public:
 			else if(c == '^') i = 42;
 			else if(c == '(' || c == '[') i = 43;
 			else if(c == ')' || c == ']') i = 44;
+			else if(c == '<') i = 45;
+			else if(c == '>') i = 46;
 			else i = 36;
 
 			// Get pixmap representation

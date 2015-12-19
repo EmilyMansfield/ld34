@@ -32,7 +32,17 @@ int main()
 
 	// Window viewport
 	sf::View view(sf::FloatRect(0, 0, ld::gameDim, ld::gameDim));
-	view.setCenter(ld::gameDim/2.0f, ld::gameDim/2.0f);
+	// If width > height, then display should be width x width
+	// and centred vertically
+	double w = window.getSize().x, h = window.getSize().y;
+	if(w < h)
+	{
+		view.setViewport(sf::FloatRect(0.0f, 0.5f*(1 - w/h), 1.0f, w/h));
+	}
+	else if(w > h)
+	{
+		view.setViewport(sf::FloatRect(0.5f*(1 - h/w), 0.0f, h/w, 1.0f));
+	}
 	window.setView(view);
 
 	#ifdef __ANDROID__

@@ -8,6 +8,36 @@
 #include "util.hpp"
 #include "constants.hpp"
 
+#ifdef __ANDROID__
+void GameStateSettings::handleEvent(const sf::Event& event)
+{
+	if(event.type == sf::Event::TouchBegan)
+	{
+		sf::Vector2i p(event.touch.x, event.touch.y);
+		sf::Vector2f touchPos(ld::renderTarget->mapPixelToCoords(p));
+		if(mTextBack.getBounds().contains(touchPos))
+		{
+			std::shared_ptr<GameState> thisState = mState;
+			mState.reset(new GameStateTitle(mState, thisState));
+		}
+		else if(mTextMusic.getBounds().contains(touchPos))
+		{
+			if(ld::musicAvailable && ld::musicOn == false)
+			{
+				mTextMusic.setString("Music is on");
+				mTextMusic.setOrigin(11 * 5 * 0.5f, 1 * 6 * 0.5f);
+				ld::musicOn = true;
+			}
+			else if(ld::musicAvailable && ld::musicOn == true)
+			{
+				mTextMusic.setString("Music is off");
+				mTextMusic.setOrigin(12 * 5 * 0.5f, 1 * 6 * 0.5f);
+				ld::musicOn = false;
+			}
+		}
+	}
+}
+#else
 void GameStateSettings::handleEvent(const sf::Event& event)
 {
 	if(event.type == sf::Event::KeyPressed)
@@ -64,6 +94,7 @@ void GameStateSettings::handleEvent(const sf::Event& event)
 		}
 	}
 }
+#endif /* __ANDROID__ */
 
 void GameStateSettings::handleInput(float dt)
 {

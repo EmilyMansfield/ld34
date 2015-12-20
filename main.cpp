@@ -11,6 +11,19 @@
 #include "game_state_title.hpp"
 #include "constants.hpp"
 
+void updateView(const sf::Window& window, sf::View& view)
+{
+	double w = window.getSize().x, h = window.getSize().y;
+	if(w < h)
+	{
+		view.setViewport(sf::FloatRect(0.0f, 0.5f*(1 - w/h), 1.0f, w/h));
+	}
+	else if(w > h)
+	{
+		view.setViewport(sf::FloatRect(0.5f*(1 - h/w), 0.0f, h/w, 1.0f));
+	}
+}
+
 int main()
 {
 	// Will use 'proper' C++ random if have time
@@ -32,17 +45,7 @@ int main()
 
 	// Window viewport
 	sf::View view(sf::FloatRect(0, 0, ld::gameDim, ld::gameDim));
-	// If width > height, then display should be width x width
-	// and centred vertically
-	double w = window.getSize().x, h = window.getSize().y;
-	if(w < h)
-	{
-		view.setViewport(sf::FloatRect(0.0f, 0.5f*(1 - w/h), 1.0f, w/h));
-	}
-	else if(w > h)
-	{
-		view.setViewport(sf::FloatRect(0.5f*(1 - h/w), 0.0f, h/w, 1.0f));
-	}
+	updateView(window, view);
 	window.setView(view);
 
 	#ifdef __ANDROID__
@@ -97,6 +100,11 @@ int main()
 			if(event.type == sf::Event::Closed)
 			{
 				window.close();
+			}
+			else if(event.type == sf::Event::Resized)
+			{
+				updateView(window, view);
+				window.setView(view);
 			}
 			if(state != nullptr) state->handleEvent(event);
 		}

@@ -186,6 +186,11 @@ public:
 			target.draw(mTextPause, states);
 		}
 	}
+
+	virtual bool fullscreen()
+	{
+		return false;
+	}
 };
 
 #endif /* GAME_STATE_GAME_HPP */

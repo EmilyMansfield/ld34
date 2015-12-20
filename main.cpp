@@ -24,6 +24,23 @@ void updateView(const sf::Window& window, sf::View& view)
 	}
 }
 
+void updateFullscreenView(const sf::Window& window, sf::View& view)
+{
+	double w = window.getSize().x, h = window.getSize().y;
+	if(w < h)
+	{
+		view.setSize(ld::gameDim, ld::gameDim * h/w);
+		view.setCenter(ld::gameDim*0.5f, ld::gameDim * h/w * 0.5f);
+		view.setViewport(sf::FloatRect(0.0f, 0.0f, 1.0f, 1.0f));
+	}
+	else if(w > h)
+	{
+		view.setSize(ld::gameDim * w/h, ld::gameDim);
+		view.setCenter(ld::gameDim * w/h * 0.5f, ld::gameDim * 0.5f);
+		view.setViewport(sf::FloatRect(0.0f, 0.0f, 1.0f, 1.0f));
+	}
+}
+
 int main()
 {
 	// Will use 'proper' C++ random if have time
@@ -34,7 +51,7 @@ int main()
 		sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "");
 	#else
 		sf::RenderWindow window(sf::VideoMode(ld::width, ld::height), 
-			ld::title, sf::Style::Titlebar | sf::Style::Close);
+			ld::title, sf::Style::Titlebar | sf::Style::Close | sf::Style::Resize);
 
 		// Disable key repeating
 		window.setKeyRepeatEnabled(false);
@@ -44,9 +61,12 @@ int main()
 	#endif /* __ANDROID__ */
 
 	// Window viewport
+	sf::View fullscreenView;
 	sf::View view(sf::FloatRect(0, 0, ld::gameDim, ld::gameDim));
+	bool fullscreen = true;
 	updateView(window, view);
-	window.setView(view);
+	updateFullscreenView(window, fullscreenView);
+	window.setView(fullscreenView);
 
 	#ifdef __ANDROID__
 		ld::renderTarget = &window;
@@ -103,11 +123,34 @@ int main()
 			}
 			else if(event.type == sf::Event::Resized)
 			{
-				updateView(window, view);
-				window.setView(view);
+				if(fullscreen)
+				{
+					updateFullscreenView(window, fullscreenView);
+					window.setView(fullscreenView);
+				}
+				else
+				{
+					updateView(window, view);
+					window.setView(view);
+				}
 			}
 			if(state != nullptr) state->handleEvent(event);
 		}
+
+		// Handle view type change
+		if(state->fullscreen() && !fullscreen)
+		{
+			updateFullscreenView(window, fullscreenView);
+			window.setView(fullscreenView);
+			fullscreen = true;
+		}
+		else if(!state->fullscreen() && fullscreen)
+		{
+			updateView(window, view);
+			window.setView(view);
+			fullscreen = false;
+		}
+
 		// Update window
 		if(state != nullptr) state->handleInput(dt);
 		if(state != nullptr) state->update(dt);

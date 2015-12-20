@@ -29,6 +29,11 @@ public:
 	}
 
 	virtual ~GameState() {}
+
+	virtual bool fullscreen()
+	{
+		return true;
+	}
 };
 
 #endif /* GAME_STATE_HPP */

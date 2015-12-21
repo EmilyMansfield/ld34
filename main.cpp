@@ -29,14 +29,18 @@ void updateFullscreenView(const sf::Window& window, sf::View& view)
 	double w = window.getSize().x, h = window.getSize().y;
 	if(w < h)
 	{
-		view.setSize(ld::gameDim, ld::gameDim * h/w);
-		view.setCenter(ld::gameDim*0.5f, ld::gameDim * h/w * 0.5f);
+		ld::gameDimFullWidth = ld::gameDim;
+		ld::gameDimFullHeight = ld::gameDim * h/w;
+		view.setSize(ld::gameDimFullWidth, ld::gameDimFullHeight);
+		view.setCenter(ld::gameDimFullWidth*0.5f, ld::gameDimFullHeight*0.5f);
 		view.setViewport(sf::FloatRect(0.0f, 0.0f, 1.0f, 1.0f));
 	}
 	else if(w > h)
 	{
-		view.setSize(ld::gameDim * w/h, ld::gameDim);
-		view.setCenter(ld::gameDim * w/h * 0.5f, ld::gameDim * 0.5f);
+		ld::gameDimFullWidth = ld::gameDim * w/h;
+		ld::gameDimFullHeight = ld::gameDim;
+		view.setSize(ld::gameDimFullWidth, ld::gameDimFullHeight);
+		view.setCenter(ld::gameDimFullWidth*0.5f, ld::gameDimFullHeight*0.5f);
 		view.setViewport(sf::FloatRect(0.0f, 0.0f, 1.0f, 1.0f));
 	}
 }

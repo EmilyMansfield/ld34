@@ -9,6 +9,8 @@ namespace ld
 extern const unsigned int width;
 extern const unsigned int height;
 extern float gameDim;
+extern float gameDimFullWidth;
+extern float gameDimFullHeight;
 extern const float saturation;
 extern const float value;
 extern const sf::Color playerCol;

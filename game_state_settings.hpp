@@ -69,11 +69,11 @@ public:
 		mSelectedOption(0),
 		mNameStr("Name " + ld::playerName)
 	{
-		mTextTitle.setPosition(ld::gameDim/2.0f, ld::gameDim*0.5f/5.0f);
+		mTextTitle.setPosition(ld::gameDimFullWidth/2.0f, ld::gameDimFullHeight*0.5f/5.0f);
 		mTextTitle.setOrigin(8 * 5 * 0.5f, 1 * 6 * 0.5f);
 		mTextTitle.setScale(0.2f, 0.2f);
 
-		mTextMusic.setPosition(ld::gameDim/2.0f, ld::gameDim*1.5/5.0f);
+		mTextMusic.setPosition(ld::gameDimFullWidth/2.0f, ld::gameDimFullHeight*1.5/5.0f);
 		if(ld::musicAvailable && ld::musicOn)
 		{
 			mTextMusic.setString("Music is on");
@@ -93,25 +93,25 @@ public:
 		}
 
 		mTextName.setString(mNameStr);
-		mTextName.setPosition(ld::gameDim/2.0f, ld::gameDim*2.0f/5.0f);
+		mTextName.setPosition(ld::gameDimFullWidth/2.0f, ld::gameDimFullHeight*2.0f/5.0f);
 		mTextName.setOrigin(mNameStr.size() * 5 * 0.5f, 1 * 6 * 0.5f);
 		mTextName.setScale(0.1f, 0.1f);
 
-		mTextBack.setPosition(ld::gameDim/2.0f, ld::gameDim*2.5f/5.0f);
+		mTextBack.setPosition(ld::gameDimFullWidth/2.0f, ld::gameDimFullHeight*2.5f/5.0f);
 		mTextBack.setOrigin(4 * 5 * 0.5f, 1 * 6 * 0.5f);
 		mTextBack.setScale(0.1f, 0.1f);
 
-		mTextAbout.setPosition(ld::gameDim/2.0f, ld::gameDim*3.0f/5.0f);
+		mTextAbout.setPosition(ld::gameDimFullWidth/2.0f, ld::gameDimFullHeight*3.0f/5.0f);
 		mTextAbout.setOrigin(ld::textAbout.size() * 5 * 0.5f, 1 * 6 * 0.5f);
 		mTextAbout.setScale(0.1f, 0.1f);
-		mTextAbout2.setPosition(ld::gameDim/2.0f, ld::gameDim*3.5f/5.0f);
+		mTextAbout2.setPosition(ld::gameDimFullWidth/2.0f, ld::gameDimFullHeight*3.5f/5.0f);
 		mTextAbout2.setOrigin(ld::textAbout2.size() * 5 * 0.5f, 1 * 6 * 0.5f);
 		mTextAbout2.setScale(0.1f, 0.1f);
 
-		mTextAuthor.setPosition(ld::gameDim/2.0f, ld::gameDim*4.0f/5.0f);
+		mTextAuthor.setPosition(ld::gameDimFullWidth/2.0f, ld::gameDimFullHeight*4.0f/5.0f);
 		mTextAuthor.setOrigin(ld::textAuthor.size() * 5 * 0.5f, 1 * 6 * 0.5f);
 		mTextAuthor.setScale(0.1f, 0.1f);
-		mTextAuthor2.setPosition(ld::gameDim/2.0f, ld::gameDim*4.5f/5.0f);
+		mTextAuthor2.setPosition(ld::gameDimFullWidth/2.0f, ld::gameDimFullHeight*4.5f/5.0f);
 		mTextAuthor2.setOrigin(ld::textAuthor2.size() * 5 * 0.5f, 1 * 6 * 0.5f);
 		mTextAuthor2.setScale(0.1f, 0.1f);
 

@@ -32,12 +32,6 @@ GameStateTitle::GameStateTitle(std::shared_ptr<GameState>& state,
 		ld::rand(0.0f, 360.0f),
 		ld::saturation,
 		ld::value));
-
-	#ifdef __ANDROID__
-		mTextTitle.update();
-		mTextPlay.update();
-		mTextSettings.update();
-	#endif /* __ANDROID__ */
 }
 
 void GameStateTitle::select(Text* ptr)

@@ -40,13 +40,6 @@ GameStateScores::GameStateScores(std::shared_ptr<GameState>& state,
 		ld::saturation,
 		ld::value));
 
-	#ifdef __ANDROID__
-		mTextTitle.update();
-		mTextRestart.update();
-		mTextBoardSetter.update();
-		mTextQuit.update();
-	#endif /* __ANDROID__ */
-
 	submitScore(ld::playerName, mScore);
 	// Preload both sets of scores
 	getScores(true);

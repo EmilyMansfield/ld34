@@ -62,17 +62,6 @@ GameStateSettings::GameStateSettings(std::shared_ptr<GameState>& state,
 
 	onResize();
 	selectOption();
-
-	#ifdef __ANDROID__
-		mTextTitle.update();
-		mTextMusic.update();
-		mTextName.update();
-		mTextBack.update();
-		mTextAbout.update();
-		mTextAbout2.update();
-		mTextAuthor.update();
-		mTextAuthor2.update();
-	#endif /* __ANDROID__ */
 }
 
 void GameStateSettings::select(Text* ptr)

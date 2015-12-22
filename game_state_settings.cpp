@@ -19,8 +19,10 @@ GameStateSettings::GameStateSettings(std::shared_ptr<GameState>& state,
 	mTextAbout2(ld::textAbout2),
 	mTextAuthor(ld::textAuthor),
 	mTextAuthor2(ld::textAuthor2),
-	mSelectedOption(0),
 	mNameStr("Name " + ld::playerName)
+	#ifndef __ANDROID__
+		,mSelectedOption(0)
+	#endif /* !__ANDROID__ */
 {
 	mTextTitle.setOrigin(8 * 5 * 0.5f, 1 * 6 * 0.5f);
 	mTextTitle.setScale(0.2f, 0.2f);
@@ -61,34 +63,38 @@ GameStateSettings::GameStateSettings(std::shared_ptr<GameState>& state,
 	mTextAuthor2.setScale(0.1f, 0.1f);
 
 	onResize();
-	selectOption();
+	#ifndef __ANDROID__
+		selectOption();
+	#endif /* !__ANDROID__ */
 }
 
-void GameStateSettings::select(Text* ptr)
-{
-	ptr->setColor(ld::hsvToRgb(
-		ld::rand(0.0f, 360.0f),
-		ld::saturation,
-		ld::value));
-}
-
-void GameStateSettings::deselect(Text* ptr)
-{
-	ptr->setColor(sf::Color(255, 255, 255));
-}
-
-void GameStateSettings::selectOption()
-{
-	Text* selectedText = nullptr;
-	if(mSelectedOption == 0) selectedText = &mTextMusic;
-	else if(mSelectedOption == 1) selectedText = &mTextBack;
-	if(selectedText != nullptr)
+#ifndef __ANDROID__
+	void GameStateSettings::select(Text* ptr)
 	{
-		deselect(&mTextMusic);
-		deselect(&mTextBack);
-		select(selectedText);
+		ptr->setColor(ld::hsvToRgb(
+			ld::rand(0.0f, 360.0f),
+			ld::saturation,
+			ld::value));
 	}
-}
+
+	void GameStateSettings::deselect(Text* ptr)
+	{
+		ptr->setColor(sf::Color(255, 255, 255));
+	}
+
+	void GameStateSettings::selectOption()
+	{
+		Text* selectedText = nullptr;
+		if(mSelectedOption == 0) selectedText = &mTextMusic;
+		else if(mSelectedOption == 1) selectedText = &mTextBack;
+		if(selectedText != nullptr)
+		{
+			deselect(&mTextMusic);
+			deselect(&mTextBack);
+			select(selectedText);
+		}
+	}
+#endif /* !__ANDROID__ */
 
 #ifdef __ANDROID__
 void GameStateSettings::handleEvent(const sf::Event& event)

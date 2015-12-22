@@ -14,8 +14,10 @@ GameStateTitle::GameStateTitle(std::shared_ptr<GameState>& state,
 	GameState(state, prevState),
 	mTextTitle(ld::gameName),
 	mTextPlay("Play"),
-	mTextSettings("Settings"),
-	mSelectedOption(0)
+	mTextSettings("Settings")
+	#ifndef __ANDROID__
+		,mSelectedOption(0)
+	#endif /* !__ANDROID__ */
 {
 	mTextTitle.setOrigin(ld::gameName.size() * 5 * 0.5f, 1 * 6 * 0.5f);
 	mTextTitle.setScale(0.3f, 0.3f);
@@ -28,37 +30,41 @@ GameStateTitle::GameStateTitle(std::shared_ptr<GameState>& state,
 
 	onResize();
 
-	mTextPlay.setColor(ld::hsvToRgb(
-		ld::rand(0.0f, 360.0f),
-		ld::saturation,
-		ld::value));
+	#ifndef __ANDROID__
+		mTextPlay.setColor(ld::hsvToRgb(
+			ld::rand(0.0f, 360.0f),
+			ld::saturation,
+			ld::value));
+	#endif /* !__ANDROID__ */
 }
 
-void GameStateTitle::select(Text* ptr)
-{
-	ptr->setColor(ld::hsvToRgb(
-		ld::rand(0.0f, 360.0f),
-		ld::saturation,
-		ld::value));
-}
-
-void GameStateTitle::deselect(Text* ptr)
-{
-	ptr->setColor(sf::Color(255, 255, 255));
-}
-
-void GameStateTitle::selectOption()
-{
-	Text* selectedText = nullptr;
-	if(mSelectedOption == 0) selectedText = &mTextPlay;
-	else if(mSelectedOption == 1) selectedText = &mTextSettings;
-	if(selectedText != nullptr)
+#ifndef __ANDROID__
+	void GameStateTitle::select(Text* ptr)
 	{
-		deselect(&mTextPlay);
-		deselect(&mTextSettings);
-		select(selectedText);
+		ptr->setColor(ld::hsvToRgb(
+			ld::rand(0.0f, 360.0f),
+			ld::saturation,
+			ld::value));
 	}
-}
+
+	void GameStateTitle::deselect(Text* ptr)
+	{
+		ptr->setColor(sf::Color(255, 255, 255));
+	}
+
+	void GameStateTitle::selectOption()
+	{
+		Text* selectedText = nullptr;
+		if(mSelectedOption == 0) selectedText = &mTextPlay;
+		else if(mSelectedOption == 1) selectedText = &mTextSettings;
+		if(selectedText != nullptr)
+		{
+			deselect(&mTextPlay);
+			deselect(&mTextSettings);
+			select(selectedText);
+		}
+	}
+#endif /* !__ANDROID__ */
 
 #ifdef __ANDROID__
 void GameStateTitle::handleEvent(const sf::Event& event)

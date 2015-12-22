@@ -18,11 +18,13 @@ private:
 	Text mTextPlay;
 	Text mTextSettings;
 
-	int mSelectedOption;
+	#ifndef __ANDROID__
+		int mSelectedOption;
 
-	void select(Text* ptr);
-	void deselect(Text* ptr);
-	void selectOption();
+		void select(Text* ptr);
+		void deselect(Text* ptr);
+		void selectOption();
+	#endif /* !__ANDROID__ */
 
 public:
 

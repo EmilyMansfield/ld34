@@ -23,13 +23,15 @@ private:
 	Text mTextAuthor;
 	Text mTextAuthor2;
 
-	int mSelectedOption;
-
 	std::string mNameStr;
 
-	void select(Text* ptr);
-	void deselect(Text* ptr);
-	void selectOption();
+	#ifndef __ANDROID__
+		int mSelectedOption;
+
+		void select(Text* ptr);
+		void deselect(Text* ptr);
+		void selectOption();
+	#endif /* !__ANDROID__ */
 
 public:
 

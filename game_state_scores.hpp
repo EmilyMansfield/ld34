@@ -32,13 +32,15 @@ private:
 	std::vector<std::tuple<std::string, unsigned long, Text>> mTopScores;
 	std::vector<std::tuple<std::string, unsigned long, Text>> mRelativeScores;
 
-	int mSelectedOption;
-
 	unsigned long mScore;
 
-	void select(Text* ptr);
-	void deselect(Text* ptr);
-	void selectOption();
+	#ifndef __ANDROID__
+		int mSelectedOption;
+
+		void select(Text* ptr);
+		void deselect(Text* ptr);
+		void selectOption();
+	#endif /* __ANDROID__ */
 
 	std::string createSubmission(const std::string& name, unsigned long score);
 	bool submitScore(const std::string& name, unsigned long score);

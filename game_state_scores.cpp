@@ -18,8 +18,10 @@ GameStateScores::GameStateScores(std::shared_ptr<GameState>& state,
 	mTextQuit("Quit"),
 	mTextBoardSetterStr("Showing Yours"),
 	mShowingTopScores(false),
-	mSelectedOption(0),
 	mScore(score)
+	#ifndef __ANDROID__
+		,mSelectedOption(0)
+	#endif /* !__ANDROID__ */
 {
 	mTextTitle.setOrigin(11 * 5 * 0.5f, 1 * 6 * 0.5f);
 	mTextTitle.setScale(0.2f, 0.2f);
@@ -35,10 +37,12 @@ GameStateScores::GameStateScores(std::shared_ptr<GameState>& state,
 
 	onResize();
 
-	mTextRestart.setColor(ld::hsvToRgb(
-		ld::rand(0.0f, 360.0f),
-		ld::saturation,
-		ld::value));
+	#ifndef __ANDROID__
+		mTextRestart.setColor(ld::hsvToRgb(
+			ld::rand(0.0f, 360.0f),
+			ld::saturation,
+			ld::value));
+	#endif /* !__ANDROID__ */
 
 	submitScore(ld::playerName, mScore);
 	// Preload both sets of scores
@@ -46,33 +50,35 @@ GameStateScores::GameStateScores(std::shared_ptr<GameState>& state,
 	getScores(false);
 }
 
-void GameStateScores::select(Text* ptr)
-{
-	ptr->setColor(ld::hsvToRgb(
-		ld::rand(0.0f, 360.0f),
-		ld::saturation,
-		ld::value));
-}
-
-void GameStateScores::deselect(Text* ptr)
-{
-	ptr->setColor(sf::Color(255, 255, 255));
-}
-
-void GameStateScores::selectOption()
-{
-	Text* selectedText = nullptr;
-	if(mSelectedOption == 0) selectedText = &mTextRestart;
-	else if(mSelectedOption == 1) selectedText = &mTextBoardSetter;
-	else if(mSelectedOption == 2) selectedText = &mTextQuit;
-	if(selectedText != nullptr)
+#ifndef __ANDROID__
+	void GameStateScores::select(Text* ptr)
 	{
-		deselect(&mTextRestart);
-		deselect(&mTextBoardSetter);
-		deselect(&mTextQuit);
-		select(selectedText);
+		ptr->setColor(ld::hsvToRgb(
+			ld::rand(0.0f, 360.0f),
+			ld::saturation,
+			ld::value));
 	}
-}
+
+	void GameStateScores::deselect(Text* ptr)
+	{
+		ptr->setColor(sf::Color(255, 255, 255));
+	}
+
+	void GameStateScores::selectOption()
+	{
+		Text* selectedText = nullptr;
+		if(mSelectedOption == 0) selectedText = &mTextRestart;
+		else if(mSelectedOption == 1) selectedText = &mTextBoardSetter;
+		else if(mSelectedOption == 2) selectedText = &mTextQuit;
+		if(selectedText != nullptr)
+		{
+			deselect(&mTextRestart);
+			deselect(&mTextBoardSetter);
+			deselect(&mTextQuit);
+			select(selectedText);
+		}
+	}
+#endif /* !__ANDROID__ */
 
 std::string GameStateScores::createSubmission(const std::string& name, unsigned long score)
 {

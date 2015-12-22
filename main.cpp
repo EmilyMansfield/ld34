@@ -137,6 +137,7 @@ int main()
 					updateView(window, view);
 					window.setView(view);
 				}
+				if(state != nullptr) state->onResize();
 			}
 			if(state != nullptr) state->handleEvent(event);
 		}

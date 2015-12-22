@@ -41,6 +41,7 @@ public:
 	virtual void update(float dt);
 
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	virtual void onResize();
 };
 
 #endif /* GAME_STATE_SETTINGS_HPP */

@@ -17,17 +17,16 @@ GameStateTitle::GameStateTitle(std::shared_ptr<GameState>& state,
 	mTextSettings("Settings"),
 	mSelectedOption(0)
 {
-	mTextTitle.setPosition(ld::gameDimFullWidth/2.0f, ld::gameDimFullHeight*1.5f/5.0f);
 	mTextTitle.setOrigin(ld::gameName.size() * 5 * 0.5f, 1 * 6 * 0.5f);
 	mTextTitle.setScale(0.3f, 0.3f);
 
-	mTextPlay.setPosition(ld::gameDimFullWidth/2.0f, ld::gameDimFullHeight*3.0f/5.0f);
 	mTextPlay.setOrigin(4 * 5 * 0.5f, 1 * 6 * 0.5f);
 	mTextPlay.setScale(0.2f, 0.2f);
 
-	mTextSettings.setPosition(ld::gameDimFullWidth/2.0f, ld::gameDimFullHeight*4.0f/5.0f);
 	mTextSettings.setOrigin(8 * 5 * 0.5f, 1 * 6 * 0.5f);
 	mTextSettings.setScale(0.2f, 0.2f);
+
+	onResize();
 
 	mTextPlay.setColor(ld::hsvToRgb(
 		ld::rand(0.0f, 360.0f),
@@ -130,4 +129,11 @@ void GameStateTitle::draw(sf::RenderTarget& target, sf::RenderStates states) con
 	target.draw(mTextTitle, states);
 	target.draw(mTextPlay, states);
 	target.draw(mTextSettings, states);
+}
+
+void GameStateTitle::onResize()
+{
+	mTextTitle.setPosition(ld::gameDimFullWidth/2.0f, ld::gameDimFullHeight*1.5f/5.0f);
+	mTextPlay.setPosition(ld::gameDimFullWidth/2.0f, ld::gameDimFullHeight*3.0f/5.0f);
+	mTextSettings.setPosition(ld::gameDimFullWidth/2.0f, ld::gameDimFullHeight*4.0f/5.0f);
 }

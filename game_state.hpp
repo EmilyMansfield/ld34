@@ -34,6 +34,11 @@ public:
 	{
 		return true;
 	}
+
+	virtual void onResize()
+	{
+
+	}
 };
 
 #endif /* GAME_STATE_HPP */

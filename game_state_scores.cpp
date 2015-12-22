@@ -21,21 +21,19 @@ GameStateScores::GameStateScores(std::shared_ptr<GameState>& state,
 	mSelectedOption(0),
 	mScore(score)
 {
-	mTextTitle.setPosition(ld::gameDimFullWidth/2.0f, ld::gameDimFullHeight*0.5f/5.0f);
 	mTextTitle.setOrigin(11 * 5 * 0.5f, 1 * 6 * 0.5f);
 	mTextTitle.setScale(0.2f, 0.2f);
 
-	mTextRestart.setPosition(ld::gameDimFullWidth/2.0f, ld::gameDimFullHeight*4.0f/5.0f);
 	mTextRestart.setOrigin(7 * 5 * 0.5f, 1 * 6 * 0.5f);
 	mTextRestart.setScale(0.1f, 0.1f);
 
-	mTextBoardSetter.setPosition(ld::gameDimFullWidth/2.0f, ld::gameDimFullHeight*4.4f/5.0f);
 	mTextBoardSetter.setOrigin(mTextBoardSetterStr.size() * 5 * 0.5f, 1 * 6 * 0.5f);
 	mTextBoardSetter.setScale(0.1f, 0.1f);
 
-	mTextQuit.setPosition(ld::gameDimFullWidth/2.0f, ld::gameDimFullHeight*4.8f/5.0f);
 	mTextQuit.setOrigin(4 * 5 * 0.5f, 1 * 6 * 0.5f);
 	mTextQuit.setScale(0.1f, 0.1f);
+
+	onResize();
 
 	mTextRestart.setColor(ld::hsvToRgb(
 		ld::rand(0.0f, 360.0f),
@@ -308,5 +306,22 @@ void GameStateScores::draw(sf::RenderTarget& target, sf::RenderStates states) co
 		{
 			target.draw(std::get<2>(score), states);
 		}
+	}
+}
+
+void GameStateScores::onResize()
+{
+	mTextTitle.setPosition(ld::gameDimFullWidth/2.0f, ld::gameDimFullHeight*0.5f/5.0f);
+	mTextRestart.setPosition(ld::gameDimFullWidth/2.0f, ld::gameDimFullHeight*4.0f/5.0f);
+	mTextBoardSetter.setPosition(ld::gameDimFullWidth/2.0f, ld::gameDimFullHeight*4.4f/5.0f);
+	mTextQuit.setPosition(ld::gameDimFullWidth/2.0f, ld::gameDimFullHeight*4.8f/5.0f);
+
+	for(size_t i = 0; i < mTopScores.size(); ++i)
+	{
+		std::get<2>(mTopScores[i]).setPosition(ld::gameDimFullWidth*0.5f, ld::gameDimFullHeight*(0.9f+i*0.28f)/5.0f);
+	}
+	for(size_t i = 0; i < mRelativeScores.size(); ++i)
+	{
+		std::get<2>(mRelativeScores[i]).setPosition(ld::gameDimFullWidth*0.5f, ld::gameDimFullHeight*(0.9f+i*0.28f)/5.0f);
 	}
 }

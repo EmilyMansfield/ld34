@@ -184,7 +184,7 @@ bool GameStateScores::getScores(bool topScores)
 				hasSelectedPlayer = true;
 			}
 			tText.setOrigin(textStr.size() * 5 * 0.5f, 1 * 6 * 0.5f);
-			tText.setPosition(ld::gameDimFullWidth*0.5f, ld::gameDimFullHeight*(0.8f+i*0.14f)/5.0f);
+			tText.setPosition(ld::gameDimFullWidth*0.5f, ld::gameDimFullHeight*(0.9f+i*0.14f)/5.0f);
 			tText.setScale(0.08f, 0.08f);
 			if(topScores)
 				mTopScores.push_back(score);

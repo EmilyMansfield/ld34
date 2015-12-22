@@ -136,4 +136,10 @@ void GameStateTitle::onResize()
 	mTextTitle.setPosition(ld::gameDimFullWidth/2.0f, ld::gameDimFullHeight*1.5f/5.0f);
 	mTextPlay.setPosition(ld::gameDimFullWidth/2.0f, ld::gameDimFullHeight*3.0f/5.0f);
 	mTextSettings.setPosition(ld::gameDimFullWidth/2.0f, ld::gameDimFullHeight*4.0f/5.0f);
+
+	#ifdef __ANDROID__
+		mTextTitle.update();
+		mTextPlay.update();
+		mTextSettings.update();
+	#endif /* __ANDROID__ */
 }

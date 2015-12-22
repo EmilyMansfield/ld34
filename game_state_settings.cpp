@@ -221,4 +221,15 @@ void GameStateSettings::onResize()
 	mTextAbout2.setPosition(ld::gameDimFullWidth/2.0f, ld::gameDimFullHeight*3.5f/5.0f);
 	mTextAuthor.setPosition(ld::gameDimFullWidth/2.0f, ld::gameDimFullHeight*4.0f/5.0f);
 	mTextAuthor2.setPosition(ld::gameDimFullWidth/2.0f, ld::gameDimFullHeight*4.5f/5.0f);
+
+	#ifdef __ANDROID__
+		mTextTitle.update();
+		mTextMusic.update();
+		mTextName.update();
+		mTextBack.update();
+		mTextAbout.update();
+		mTextAbout2.update();
+		mTextAuthor.update();
+		mTextAuthor2.update();
+	#endif /* __ANDROID__ */
 }

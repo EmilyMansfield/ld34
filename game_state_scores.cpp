@@ -186,6 +186,9 @@ bool GameStateScores::getScores(bool topScores)
 			tText.setOrigin(textStr.size() * 5 * 0.5f, 1 * 6 * 0.5f);
 			tText.setPosition(ld::gameDimFullWidth*0.5f, ld::gameDimFullHeight*(0.9f+i*0.14f)/5.0f);
 			tText.setScale(0.08f, 0.08f);
+			#ifdef __ANDROID__
+				tText.update();
+			#endif /* __ANDROID__ */
 			if(topScores)
 				mTopScores.push_back(score);
 			else
@@ -316,12 +319,25 @@ void GameStateScores::onResize()
 	mTextBoardSetter.setPosition(ld::gameDimFullWidth/2.0f, ld::gameDimFullHeight*4.4f/5.0f);
 	mTextQuit.setPosition(ld::gameDimFullWidth/2.0f, ld::gameDimFullHeight*4.8f/5.0f);
 
+	#ifdef __ANDROID__
+		mTextTitle.update();
+		mTextRestart.update();
+		mTextBoardSetter.update();
+		mTextQuit.update();
+	#endif /* __ANDROID__ */
+
 	for(size_t i = 0; i < mTopScores.size(); ++i)
 	{
 		std::get<2>(mTopScores[i]).setPosition(ld::gameDimFullWidth*0.5f, ld::gameDimFullHeight*(0.9f+i*0.28f)/5.0f);
+		#ifdef __ANDROID__
+			std::get<2>(mTopScores[i]).update();
+		#endif /* __ANDROID__ */
 	}
 	for(size_t i = 0; i < mRelativeScores.size(); ++i)
 	{
 		std::get<2>(mRelativeScores[i]).setPosition(ld::gameDimFullWidth*0.5f, ld::gameDimFullHeight*(0.9f+i*0.28f)/5.0f);
+		#ifdef __ANDROID__
+			std::get<2>(mRelativeScores[i]).update();
+		#endif /* __ANDROID__ */
 	}
 }

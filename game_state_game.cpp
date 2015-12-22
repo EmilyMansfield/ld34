@@ -8,6 +8,104 @@
 #include "util.hpp"
 #include "constants.hpp"
 
+GameStateGame::GameStateGame(std::shared_ptr<GameState>& state,
+	std::shared_ptr<GameState>& prevState) :
+	GameState(state, prevState),
+	mPlayer(1.0f),
+	mNextGen(2.0f),
+	mT(0.0f),
+	mT2(0.0f),
+	mTrailEmissionInterval(0.1f),
+	mSubstate(SubState::TRANSITIONING),
+	#ifdef __ANDROID__
+		mTouchBoundsLeft(0, ld::gameDim*4.0f/5.0f, ld::gameDim*0.5f, ld::gameDim*1.0f/5.0f),
+		mTouchBoundsRight(ld::gameDim*0.5f, ld::gameDim*4.0f/5.0f, ld::gameDim*0.5f, ld::gameDim*1.0f/5.0f),
+		mTextCCWArrow("<"),
+		mTextCWArrow(">"),
+	#endif /* __ANDROID__ */
+	mTextScore("0"),
+	mTextPause("PAUSED"),
+	mTextLives("^"),
+	mDuration(0.0f),
+	mTransitionTimer(0.0),
+	mTransitionLength(2.0f),
+	mCurrentLevel(-1)
+{
+	mPlayer.setPosition(ld::gameDim/2.0f, ld::gameDim/2.0f);
+
+	mTextScore.setPosition(ld::gameDim*5.0f/6.0f, ld::gameDim*1.0f/5.0f);
+	mTextScore.setScale(0.1f, 0.1f);
+
+	mTextLives.setString(std::string(mPlayer.lives, '^'));
+	mTextLives.setPosition(ld::gameDim*5.0f/6.0f, ld::gameDim*0.5f/5.0f);
+	mTextLives.setScale(0.1f, 0.1f);
+
+	mTextPause.setPosition(ld::gameDim/2.0f, ld::gameDim/2.0f);
+	mTextPause.setOrigin(6 * 5 * 0.5f, 1 * 6 * 0.5f);
+	mTextPause.setScale(0.2f, 0.2f);
+
+	#ifndef __ANDROID__
+		// Load sounds
+		mHitSoundBufGood.loadFromFile(ld::hitSoundGoodPath);
+		mHitSoundBufBad.loadFromFile(ld::hitSoundBadPath);
+		mDeadSoundBuf.loadFromFile(ld::deadSoundPath);
+	#else
+		// Set left and right button hints
+		mTextCCWArrow.setPosition(ld::gameDim*0.25f, ld::gameDim*4.5f/5.0f);
+		mTextCCWArrow.setOrigin(1 * 5 * 0.5f, 1 * 6 * 0.5f);
+		mTextCCWArrow.setScale(0.25f, 0.25f);
+
+		mTextCWArrow.setPosition(ld::gameDim*0.75f, ld::gameDim*4.5f/5.0f);
+		mTextCWArrow.setOrigin(1 * 5 * 0.5f, 1 * 6 * 0.5f);
+		mTextCWArrow.setScale(0.25f, 0.25f);
+	#endif /* !__ANDROID__ */
+
+	// Instantly triggers level -1 -> 0 which fades in a new slot
+	// Projectiles are not fired until after the projectile is
+	// created
+	mTransitionTimer = 0;
+	mT = -mTransitionLength;
+	mPlayer.addSlot();
+	mPlayer.setAlpha(mPlayer.numSlots()-1, 0);
+
+	mTextLives.setColor(ld::hsvToRgb(mPlayer.sample()));
+	mTextLives.setAlpha(0);
+}
+
+float GameStateGame::dirToFacing(float dir)
+{
+	const static int map[4] = { 2, 1, 0, 3 };
+	return map[static_cast<int>(dir / 90.0f)];
+}
+
+float GameStateGame::getLevel() const
+{
+	if(mDuration < ld::levelTimers[0])
+		return 0;
+	else if(mDuration < ld::levelTimers[1])
+		return 1;
+	else if(mDuration < ld::levelTimers[2])
+		return 2;
+	else if(mDuration < ld::levelTimers[3])
+		return 3;
+	else if(mDuration < ld::levelTimers[4])
+		return 4;
+	else if(mDuration < ld::levelTimers[5])
+		return 5;
+	else
+		return 6;
+}
+
+float GameStateGame::getGenerationInterval(int level) const
+{
+	if(mSubstate == SubState::TRANSITIONING && mCurrentLevel % 2 == 0) return 0.25f;
+	static const float difficultyMap[] = {
+		1.6, 1.4, 1.2, 1.0, 0.8, 0.65, 0.5
+	};
+	// Translates to BPM for music, have two beats per note?
+	return difficultyMap[level];
+}
+
 #ifdef __ANDROID__
 void GameStateGame::handleEvent(const sf::Event& event)
 {
@@ -317,3 +415,26 @@ void GameStateGame::update(float dt)
 	}
 }
 
+void GameStateGame::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	if(mSubstate != SubState::DYING)
+	{
+		target.draw(mPlayer, states);
+	}
+	// Helps if I draw the damn things...
+	for(auto& projectile : mProjectiles) target.draw(projectile, states);
+	target.draw(mParticles, states);
+
+	target.draw(mTextScore, states);
+	target.draw(mTextLives, states);
+
+	#ifdef __ANDROID__
+		target.draw(mTextCCWArrow, states);
+		target.draw(mTextCWArrow, states);
+	#endif /* __ANDROID__ */
+
+	if(mSubstate == SubState::PAUSE)
+	{
+		target.draw(mTextPause, states);
+	}
+}
